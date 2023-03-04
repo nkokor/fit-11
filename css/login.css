@@ -1,0 +1,104 @@
+html { 
+  background: url(../images/login.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+} 
+
+body {
+  height: min-content;
+}
+
+#login-div {
+  font-family: Roboto;
+  font-weight: 300;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 30px;
+  padding-bottom: 50px;
+  height: 60%;
+  width: 430px;
+  transform: translateY(-50%);
+  margin-top: 260px;
+  margin-left: 60px;
+  margin-right: 0px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.login-input {
+  padding-left: 5px;
+  width: 430px;
+  height: 35px;
+  margin-bottom: 18px;
+  border-radius: 28px;
+  background-color: rgba(248, 248, 248, 0.435);
+  border: 2px;
+  color: rgb(57, 56, 56);
+  border-color: rgb(150, 152, 152);
+}
+
+.login-input:focus {
+  outline: none;
+}
+
+#password::-ms-reveal {
+  display: none;
+}
+
+#forgot-pass {
+  margin: auto;
+  margin-top: 0px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  font-size: small;
+  color: #3b3b3b;
+}
+
+#forgot-pass:hover {
+  color: rgb(112, 90, 94);
+}
+
+.login-button {
+  height: 40px;
+  width: 100px;
+  margin: auto;
+  cursor: pointer;
+  border-radius: 28px;
+  border: 0px;
+  background-color: rgb(159, 140, 106);
+  box-shadow: 10px 10px 8px #545454;
+  color: rgb(225, 223, 223);
+  transition: all .2s ease-in-out; 
+}
+
+#or {
+  margin: auto;
+  margin-top: 13px;
+  margin-bottom: 13px;
+  font-size: small;
+  color:  rgba(0, 0, 0, 0.635);
+
+}
+
+.fa-eye{
+  position: absolute;
+  top: 96px;
+  right: 36px;
+  cursor: pointer;
+  color: rgb(127, 127, 127);
+}
+
+#logo {
+  width: 250px;
+  margin-left: 1240px;
+  margin-top: 20px;
+}
+
+.login-button:hover { 
+  transform: scale(1.06); 
+}
+
+
