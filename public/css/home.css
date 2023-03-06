@@ -67,7 +67,23 @@ body {
   box-shadow: rgba(50, 50, 93, 0.38) 0px 13px 27px -5px, rgba(0, 0, 0, 0.4) 0px 8px 16px -8px;
 }
 
-.circle:hover { 
+.circle:hover, #logout-button:hover { 
   transform: scale(1.06); 
 }
+
+#logout-button {
+  opacity: 100%;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+  border: 0px;
+  float: right;
+  height: 34px;
+  margin-top: 18px;
+  margin-left: auto;
+  font-size: x-large;
+  margin-right: 17px;
+  background-color: white;
+  color: rgb(41, 41, 41);
+}
+
 
