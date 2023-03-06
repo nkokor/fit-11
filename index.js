@@ -62,9 +62,10 @@ app.post("/login", function(req, res) {
 app.post("/logout", function(req, res) {
   req.session.destroy();
   res.status(200);
-  let message = {"poruka":"Successful logout"};
+  let message = {"message":"Successful logout"};
   res.setHeader('Content-type', 'application/json');
   res.send(JSON.stringify(message));
 });
+
 
 app.listen(3000);
