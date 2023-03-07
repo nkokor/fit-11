@@ -60,6 +60,7 @@ app.post("/login", function(req, res) {
 });
 
 app.post("/logout", function(req, res) {
+  req.session.username = null;
   req.session.destroy();
   res.status(200);
   let message = {"message":"Successful logout"};
@@ -67,5 +68,15 @@ app.post("/logout", function(req, res) {
   res.send(JSON.stringify(message));
 });
 
+app.get("/content", function(req, res) {
+  res.setHeader('Content-type', 'application/json');
+  if(req.session.username == null) {
+    res.status(403);
+    let message = {"error":"User is not logged in!"};
+    res.send(JSON.stringify(message));
+  } else {
+    res.status(200);
+  }
+});
 
 app.listen(3000);

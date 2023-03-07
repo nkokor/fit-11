@@ -35,9 +35,8 @@ body {
   margin-bottom: 18px;
   border-radius: 28px;
   background-color: rgba(248, 248, 248, 0.435);
-  border: 2px;
   color: rgb(57, 56, 56);
-  border-color: rgb(150, 152, 152);
+  border: 0px;
 }
 
 .login-input:focus {
@@ -46,6 +45,11 @@ body {
 
 #password::-ms-reveal {
   display: none;
+}
+
+#invalid-password {
+  border: 2px;
+  border-color: rgb(255, 59, 59);
 }
 
 #forgot-pass {
