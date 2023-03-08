@@ -34,7 +34,7 @@ body {
 }
 
 #head-image {
-  margin-top: 60px;
+  margin-top: 16px;
   width: 100%;
   backdrop-filter: blur(50px);
 }

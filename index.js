@@ -76,6 +76,8 @@ app.get("/content", function(req, res) {
     res.send(JSON.stringify(message));
   } else {
     res.status(200);
+    let message = {"message": "Successful!"};
+    res.send(JSON.stringify(message));
   }
 });
 
