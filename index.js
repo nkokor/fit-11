@@ -81,4 +81,30 @@ app.get("/content", function(req, res) {
   }
 });
 
+app.post("/signup", function(req, res) {
+  req.session.destroy();
+  res.setHeader('Content-type', 'application/json');
+  if(req.body.username == '' || req.body.email == '' || req.body.password == '') {
+    res.status(403);
+    let message = {"error": "Username is not valid!"};
+    res.send(JSON.stringify(message));
+  }
+  else {
+    db.user.findOne({where: {username: req.body.username}}).then(user => {
+      if(user != null) {
+        res.status(403);
+        let message = {"error": "Username is not valid!"};
+        res.send(JSON.stringify(message));
+      } else {
+          bcrypt.hash(req.body.password, 10, function(err, hash) {
+            db.user.create({username:req.body.username, email:req.body.email, password_hash:hash});
+            res.status(200);
+            let message = {"message": "User signed up successfully!"};
+            res.send(JSON.stringify(message));
+        });
+      }
+    });
+  }
+});
+
 app.listen(3000);

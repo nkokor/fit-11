@@ -1,5 +1,5 @@
 const AjaxCalls = (()=>{
-  function sendLoginRequest(username,password,fnCallback){ 
+  function sendLoginRequest(username, password, fnCallback){ 
     let xhr = new XMLHttpRequest()
     xhr.open("POST", "/login", true);
     xhr.setRequestHeader('Content-type', 'application/json');
@@ -33,8 +33,25 @@ const AjaxCalls = (()=>{
   }
   function sendHomeRequest(fnCallback) {
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/content", true);
+    xhr.open("GET", "/content", true);+
     xhr.send();
+    xhr.onreadystatechange = function() {
+      let error = null;
+      let data = null;
+      if(xhr.status == 200 && xhr.readyState == 4) {
+        data = xhr.responseText;
+      } else {
+        error = xhr.responseText;
+      }
+      fnCallback(error, data);
+    }
+  }
+  function sendRegisterRequest(username, email, password, fnCallback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "/signup", true);
+    xhr.setRequestHeader('Content-type', 'application/json');
+    let data = {"username":username,"email":email,"password":password};
+    xhr.send(JSON.stringify(data));
     xhr.onreadystatechange = function() {
       let error = null;
       let data = null;
@@ -49,6 +66,7 @@ const AjaxCalls = (()=>{
   return{
   postLogin: sendLoginRequest,
   postLogout: sendLogoutRequest,
-  getHome: sendHomeRequest
+  getHome: sendHomeRequest,
+  postRegister: sendRegisterRequest
   };
   })();
