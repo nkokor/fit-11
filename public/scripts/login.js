@@ -26,3 +26,8 @@ loginButton.addEventListener("click", function() {
   });
 });
 
+let signinButton = document.getElementById("button-sign-in");
+signinButton.addEventListener("click", function() {
+  location.href = "signin.html";
+});
+
