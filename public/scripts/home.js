@@ -54,10 +54,21 @@ window.onload = function() {
   accountDiv.appendChild(signup);
   menu.appendChild(accountDiv);
 
-
+  let headerDiv = document.createElement("div");
+  headerDiv.id = "header-div";
   let header = document.createElement("img");
   header.id = "head-image";
   header.src = "/header.jpg";
+  let welcome = document.createElement("p");
+  welcome.innerText = "Fit-11";
+  welcome.id = "welcome";
+  let message = document.createElement("p");
+  message.innerText = "Where dreams become reality.";
+  message.id = "message";
+  headerDiv.appendChild(header);
+  headerDiv.appendChild(welcome);
+  headerDiv.appendChild(message);
+  content.appendChild(headerDiv);
   let trainings = document.createElement("div");
   trainings.id = "trainings";
   let weights = document.createElement("div");
@@ -101,7 +112,6 @@ window.onload = function() {
   trainings.appendChild(yoga);
   trainings.appendChild(zumba);
   content.appendChild(menu);
-  content.appendChild(header);
   content.appendChild(trainings);
 }
 
