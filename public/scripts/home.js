@@ -65,9 +65,13 @@ window.onload = function() {
   let message = document.createElement("p");
   message.innerText = "Where dreams become reality.";
   message.id = "message";
+  let videoButton = document.createElement("p");
+  videoButton.innerText = "PLAY VIDEO";
+  videoButton.id = "video-button";
   headerDiv.appendChild(header);
   headerDiv.appendChild(welcome);
   headerDiv.appendChild(message);
+  headerDiv.appendChild(videoButton);
   content.appendChild(headerDiv);
   let trainings = document.createElement("div");
   trainings.id = "trainings";

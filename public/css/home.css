@@ -47,6 +47,26 @@ body {
   color: rgb(209, 207, 207);
 }
 
+#video-button {
+  cursor: pointer;
+  background-color:  rgb(157, 144, 122);
+  color: white;
+  border: 0px;
+  border-radius: 0px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  text-align: center;
+  width: 116px;
+  position: absolute;
+  left: 16%;
+  top: 38%
+}
+
+#video-button:hover {
+  color: white;
+  background-color:  rgb(181, 168, 144);
+}
+
 #head-image {
   margin-top: 16px;
   width: 100%;
