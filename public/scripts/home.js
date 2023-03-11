@@ -79,6 +79,8 @@ function openProducts(content, products) {
   searchDiv.appendChild(icon);
   searchDiv.appendChild(searchBar);
   content.appendChild(searchDiv);
+  let productsDiv = document.createElement("div");
+  productsDiv.id = "products-div";
   for(let i = 0; i < products.length; i++) {
     console.log(products[i]);
     let productDiv = document.createElement("div");
@@ -93,9 +95,12 @@ function openProducts(content, products) {
     price.className = "product-price";
     price.innerText = products[i].price + '$';
     let addButton = document.createElement("p");
-    addButton.className = "add-button";
     if(products[i].availability > 0) {
       addButton.innerText = "Add to cart";
+      addButton.className = "add-button";
+      let icon = document.createElement("i");
+      icon.className = "fa fa-shopping-cart";
+      addButton.appendChild(icon);
     } else {
       addButton.innerText = "Out of stock";
       addButton.className = "out-of-stock-button";
@@ -104,8 +109,9 @@ function openProducts(content, products) {
     productDiv.appendChild(title);
     productDiv.appendChild(price);
     productDiv.appendChild(addButton);
-    content.appendChild(productDiv);
+    productsDiv.appendChild(productDiv);
   }
+  content.appendChild(productsDiv);
 }
 
 window.onload = function() {
