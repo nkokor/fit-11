@@ -34,6 +34,10 @@ body {
   color: rgb(100, 49, 61);
 }
 
+#main-div {
+  margin-top: 50px;
+}
+
 #header-div{
   margin-top: 16px;
   width: 100%;
@@ -112,10 +116,6 @@ body {
 
 .circle:hover, #logout-button:hover { 
   transform: scale(1.06); 
-}
-
-#warning {
-  margin-left: auto;
 }
 
 #on {

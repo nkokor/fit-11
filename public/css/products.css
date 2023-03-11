@@ -1,0 +1,31 @@
+#search-div {
+  margin: auto;
+  width: 400px;
+  margin-top: 100px;
+  display: flex;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 25px;
+  background-color: rgba(240, 240, 240, 0.523);
+  flex-direction: row;
+  align-items: center;
+}
+
+#search {
+  width: 400px;
+  height: 40px;
+  border-radius: 25px;
+  padding-left: 8px;
+  border: 0px;
+  background-color: rgba(227, 227, 227, 0);
+  color: rgba(120, 118, 118, 0.774);
+}
+
+#search-icon {
+  filter: contrast(50%);
+  filter: opacity(40%);
+}
+
+#search:focus {
+  outline: none;
+}

@@ -63,10 +63,27 @@ const AjaxCalls = (()=>{
       fnCallback(error, data);
     }
   }
+  function sendProductsRequest(fnCallback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "/products", true);
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.send();
+    xhr.onreadystatechange = function() {
+      let error = null;
+      let data = null;
+      if(xhr.status == 200 && xhr.readyState == 4) {
+        data = xhr.responseText;
+      } else {
+        error = xhr.responseText;
+      }
+      fnCallback(error, data);
+    }
+  }
   return{
   postLogin: sendLoginRequest,
   postLogout: sendLogoutRequest,
   getHome: sendHomeRequest,
-  postRegister: sendRegisterRequest
+  postRegister: sendRegisterRequest,
+  getProducts: sendProductsRequest
   };
   })();

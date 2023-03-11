@@ -107,4 +107,13 @@ app.post("/signup", function(req, res) {
   }
 });
 
+app.get("/products", function(req, res) {
+  res.setHeader('Content-type', 'application/json');
+  db.product.findAll().then(products => {
+    console.log(products);
+    let message = {"message": ""};
+    res.send(JSON.stringify(message));
+  });
+});
+
 app.listen(3000);

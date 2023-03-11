@@ -1,13 +1,94 @@
 let ajax = AjaxCalls;
 
+function openHome(content) {
+  let headerDiv = document.createElement("div");
+    headerDiv.id = "header-div";
+    let header = document.createElement("img");
+    header.id = "head-image";
+    header.src = "/header.jpg";
+    let welcome = document.createElement("p");
+    welcome.innerText = "Fit-11";
+    welcome.id = "welcome";
+    let message = document.createElement("p");
+    message.innerText = "Where dreams become reality.";
+    message.id = "message";
+    let videoButton = document.createElement("p");
+    videoButton.innerText = "PLAY VIDEO";
+    videoButton.id = "video-button";
+    headerDiv.appendChild(header);
+    headerDiv.appendChild(welcome);
+    headerDiv.appendChild(message);
+    headerDiv.appendChild(videoButton);
+    content.appendChild(headerDiv);
+    let trainings = document.createElement("div");
+    trainings.id = "trainings";
+    let weights = document.createElement("div");
+    weights.className = "circle";
+    let weightsImg = document.createElement("img");
+    weightsImg.className = "circle";
+    weightsImg.src = "/weight-training.jpg";
+    let weightsLink = document.createElement("p");
+    weightsLink.innerText = "WEIGHT TRAINING";
+    weights.appendChild(weightsImg);
+    weights.appendChild(weightsLink);
+    let pilates = document.createElement("div");
+    pilates.className = "circle";
+    let pilatesImg = document.createElement("img");
+    pilatesImg.className = "circle";
+    pilatesImg.src = "/pilates.jpg";
+    let pilatesLink = document.createElement("p");
+    pilatesLink.innerText = "PILATES";
+    pilates.appendChild(pilatesImg);
+    pilates.appendChild(pilatesLink);
+    let yoga = document.createElement("div");
+    yoga.className = "circle";
+    let yogaImg = document.createElement("img");
+    yogaImg.className = "circle";
+    yogaImg.src = "/yogaclass.jpg";
+    let yogaLink = document.createElement("p");
+    yogaLink.innerText = "YOGA";
+    yoga.appendChild(yogaImg);
+    yoga.appendChild(yogaLink);
+    let zumba = document.createElement("div");
+    zumba.className = "circle";
+    let zumbaImg = document.createElement("img");
+    zumbaImg.className = "circle";
+    zumbaImg.src = "/zumba.jpg";
+    let zumbaLink = document.createElement("p");
+    zumbaLink.innerText = "ZUMBA";
+    zumba.appendChild(zumbaImg);
+    zumba.appendChild(zumbaLink);
+    trainings.appendChild(weights);
+    trainings.appendChild(pilates);
+    trainings.appendChild(yoga);
+    trainings.appendChild(zumba);
+    content.appendChild(trainings);
+}
+
+function openProducts(content, products) {
+  let searchDiv = document.createElement("div");
+  searchDiv.id = "search-div";
+  let searchBar = document.createElement("input");
+  searchBar.id = "search";
+  searchBar.type = "text";
+  searchBar.placeholder = "Search products";
+  let icon = document.createElement("i");
+  icon.className = "fa-solid fa-search";
+  icon.id = "search-icon";
+  icon.ariaHidden = "false";
+  searchDiv.appendChild(icon);
+  searchDiv.appendChild(searchBar);
+  content.appendChild(searchDiv);
+}
+
 window.onload = function() {
-  warning.className = "off";
   let head = document.getElementsByTagName("head")[0];
   let script = document.createElement("script");
   script.src = "https://kit.fontawesome.com/10ba21a9a2.js";
   script.crossOrigin = "anonymous";
   head.appendChild(script);
   let content = document.getElementById("content");
+  content.id = "content";
   let menu = document.createElement("div");
   menu.id = "main-menu";
   let logo = document.createElement("img");
@@ -17,18 +98,48 @@ window.onload = function() {
   let home = document.createElement("p");
   home.className = "menu-item";
   home.innerText = "HOME";
+  home.addEventListener("click", function() {
+    let content = document.getElementById("main-div");
+    content.innerText = '';
+    openHome(content);
+  });
   menu.appendChild(home);
+
   let about = document.createElement("p");
   about.className = "menu-item";
   about.innerText = "ABOUT US";
+  about.addEventListener("click", function() {
+    let content = document.getElementById("main-div");
+    content.innerText = '';
+  });
   menu.appendChild(about);
+
   let workouts = document.createElement("p");
   workouts.className = "menu-item";
-  workouts.innerText = "HOME";
+  workouts.innerText = "WORKOUTS";
+  workouts.addEventListener("click", function() {
+    let content = document.getElementById("main-div");
+    content.innerText = '';
+  });
   menu.appendChild(workouts);
+
   let products = document.createElement("p");
   products.className = "menu-item";
   products.innerText = "PRODUCTS";
+  products.id = "products";
+  products.addEventListener("click", function() {
+    let content = document.getElementById("main-div");
+    content.innerText = '';
+    ajax.getProducts(function(error, data) {
+      if(error == null) {
+        openProducts(content, data);
+      } else {
+        let warning = document.createElement('p');
+        warning.id = "warning";
+        content.appendChild(warning);
+      }
+    });
+  });
   menu.appendChild(products);
 
   //account info space
@@ -54,68 +165,13 @@ window.onload = function() {
   accountDiv.appendChild(signup);
   menu.appendChild(accountDiv);
 
-  let headerDiv = document.createElement("div");
-  headerDiv.id = "header-div";
-  let header = document.createElement("img");
-  header.id = "head-image";
-  header.src = "/header.jpg";
-  let welcome = document.createElement("p");
-  welcome.innerText = "Fit-11";
-  welcome.id = "welcome";
-  let message = document.createElement("p");
-  message.innerText = "Where dreams become reality.";
-  message.id = "message";
-  let videoButton = document.createElement("p");
-  videoButton.innerText = "PLAY VIDEO";
-  videoButton.id = "video-button";
-  headerDiv.appendChild(header);
-  headerDiv.appendChild(welcome);
-  headerDiv.appendChild(message);
-  headerDiv.appendChild(videoButton);
-  content.appendChild(headerDiv);
-  let trainings = document.createElement("div");
-  trainings.id = "trainings";
-  let weights = document.createElement("div");
-  weights.className = "circle";
-  let weightsImg = document.createElement("img");
-  weightsImg.className = "circle";
-  weightsImg.src = "/weight-training.jpg";
-  let weightsLink = document.createElement("p");
-  weightsLink.innerText = "WEIGHT TRAINING";
-  weights.appendChild(weightsImg);
-  weights.appendChild(weightsLink);
-  let pilates = document.createElement("div");
-  pilates.className = "circle";
-  let pilatesImg = document.createElement("img");
-  pilatesImg.className = "circle";
-  pilatesImg.src = "/pilates.jpg";
-  let pilatesLink = document.createElement("p");
-  pilatesLink.innerText = "PILATES";
-  pilates.appendChild(pilatesImg);
-  pilates.appendChild(pilatesLink);
-  let yoga = document.createElement("div");
-  yoga.className = "circle";
-  let yogaImg = document.createElement("img");
-  yogaImg.className = "circle";
-  yogaImg.src = "/yogaclass.jpg";
-  let yogaLink = document.createElement("p");
-  yogaLink.innerText = "YOGA";
-  yoga.appendChild(yogaImg);
-  yoga.appendChild(yogaLink);
-  let zumba = document.createElement("div");
-  zumba.className = "circle";
-  let zumbaImg = document.createElement("img");
-  zumbaImg.className = "circle";
-  zumbaImg.src = "/zumba.jpg";
-  let zumbaLink = document.createElement("p");
-  zumbaLink.innerText = "ZUMBA";
-  zumba.appendChild(zumbaImg);
-  zumba.appendChild(zumbaLink);
-  trainings.appendChild(weights);
-  trainings.appendChild(pilates);
-  trainings.appendChild(yoga);
-  trainings.appendChild(zumba);
+  let mainContent = document.createElement("div");
+  mainContent.id = "main-div";
+
+  openHome(mainContent);
+
   content.appendChild(menu);
-  content.appendChild(trainings);
+  content.appendChild(mainContent);
 }
+
 
