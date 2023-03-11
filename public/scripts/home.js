@@ -79,6 +79,33 @@ function openProducts(content, products) {
   searchDiv.appendChild(icon);
   searchDiv.appendChild(searchBar);
   content.appendChild(searchDiv);
+  for(let i = 0; i < products.length; i++) {
+    console.log(products[i]);
+    let productDiv = document.createElement("div");
+    productDiv.className = "product-div";
+    let image = document.createElement("img");
+    image.className = "product-image";
+    image.src = products[i].image;
+    let title = document.createElement("p");
+    title.className = "product-title";
+    title.innerText = products[i].title;
+    let price = document.createElement("p");
+    price.className = "product-price";
+    price.innerText = products[i].price + '$';
+    let addButton = document.createElement("p");
+    addButton.className = "add-button";
+    if(products[i].availability > 0) {
+      addButton.innerText = "Add to cart";
+    } else {
+      addButton.innerText = "Out of stock";
+      addButton.className = "out-of-stock-button";
+    }
+    productDiv.appendChild(image);
+    productDiv.appendChild(title);
+    productDiv.appendChild(price);
+    productDiv.appendChild(addButton);
+    content.appendChild(productDiv);
+  }
 }
 
 window.onload = function() {
@@ -132,7 +159,7 @@ window.onload = function() {
     content.innerText = '';
     ajax.getProducts(function(error, data) {
       if(error == null) {
-        openProducts(content, data);
+        openProducts(content, JSON.parse(data));
       } else {
         let warning = document.createElement('p');
         warning.id = "warning";

@@ -110,9 +110,13 @@ app.post("/signup", function(req, res) {
 app.get("/products", function(req, res) {
   res.setHeader('Content-type', 'application/json');
   db.product.findAll().then(products => {
-    console.log(products);
-    let message = {"message": ""};
-    res.send(JSON.stringify(message));
+    let productObjects = [];
+    for(let i = 0; i < products.length; i++) {
+      productObjects.push({title:products[i].title, price:products[i].price, image:products[i].image, availability:products[i].availability});
+      console.log(productObjects[i]);
+    }
+    res.status(200);
+    res.send(JSON.stringify(productObjects));
   });
 });
 
