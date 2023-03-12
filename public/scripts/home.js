@@ -66,23 +66,8 @@ function openHome(content) {
 }
 
 function openProducts(content, products) {
-  let searchDiv = document.createElement("div");
-  searchDiv.id = "search-div";
-  let searchBar = document.createElement("input");
-  searchBar.id = "search";
-  searchBar.type = "text";
-  searchBar.placeholder = "Search products";
-  let icon = document.createElement("i");
-  icon.className = "fa-solid fa-search";
-  icon.id = "search-icon";
-  icon.ariaHidden = "false";
-  searchDiv.appendChild(icon);
-  searchDiv.appendChild(searchBar);
-  content.appendChild(searchDiv);
-  let productsDiv = document.createElement("div");
-  productsDiv.id = "products-div";
+  content.innerHTML = '';
   for(let i = 0; i < products.length; i++) {
-    console.log(products[i]);
     let productDiv = document.createElement("div");
     productDiv.className = "product-div";
     let image = document.createElement("img");
@@ -109,9 +94,9 @@ function openProducts(content, products) {
     productDiv.appendChild(title);
     productDiv.appendChild(price);
     productDiv.appendChild(addButton);
-    productsDiv.appendChild(productDiv);
+    content.appendChild(productDiv)
   }
-  content.appendChild(productsDiv);
+  return content;
 }
 
 window.onload = function() {
@@ -128,6 +113,8 @@ window.onload = function() {
   logo.id = "logo";
   logo.src = "/transparent-logo.png";
   menu.appendChild(logo);
+
+  //home
   let home = document.createElement("p");
   home.className = "menu-item";
   home.innerText = "HOME";
@@ -138,6 +125,7 @@ window.onload = function() {
   });
   menu.appendChild(home);
 
+  //about
   let about = document.createElement("p");
   about.className = "menu-item";
   about.innerText = "ABOUT US";
@@ -147,6 +135,7 @@ window.onload = function() {
   });
   menu.appendChild(about);
 
+  //workouts
   let workouts = document.createElement("p");
   workouts.className = "menu-item";
   workouts.innerText = "WORKOUTS";
@@ -156,6 +145,7 @@ window.onload = function() {
   });
   menu.appendChild(workouts);
 
+  //products
   let products = document.createElement("p");
   products.className = "menu-item";
   products.innerText = "PRODUCTS";
@@ -163,15 +153,58 @@ window.onload = function() {
   products.addEventListener("click", function() {
     let content = document.getElementById("main-div");
     content.innerText = '';
+
+    let productsDiv = document.createElement("div");
+    productsDiv.id = "products-div";
+
+    let searchDiv = document.createElement("div");
+    searchDiv.id = "search-div";
+    let searchBar = document.createElement("input");
+    searchBar.id = "search";
+    searchBar.type = "text";
+    searchBar.placeholder = "Search products";
+    let icon = document.createElement("i");
+    icon.className = "fa-solid fa-search";
+    icon.id = "search-icon";
+    icon.ariaHidden = "false";
+    searchDiv.appendChild(icon);
+    searchDiv.appendChild(searchBar);
+    let searchButton = document.createElement("p");
+    searchButton.id = "search-button";
+    searchButton.innerText = "Search";
+    searchButton.addEventListener("click", function(e) {
+        let product = document.getElementById("search");
+        product = product.value;
+        if(product != null) {
+          ajax.getSearch(product, function(error, data) {
+            if(error == null) {
+              content.appendChild(openProducts(productsDiv, JSON.parse(data)));
+            } else {
+              productsDiv.innerHTML = '';
+              let noResults = document.createElement('p');
+              noResults.innerText = "No results found.";
+              noResults.id = "no-results"
+              productsDiv.appendChild(noResults);
+            }
+          });
+        }
+      }
+    );
+    searchDiv.appendChild(searchButton);
+    content.appendChild(searchDiv);
     ajax.getProducts(function(error, data) {
       if(error == null) {
-        openProducts(content, JSON.parse(data));
+        openProducts(productsDiv, JSON.parse(data));
+        content.appendChild(productsDiv);
       } else {
         let warning = document.createElement('p');
         warning.id = "warning";
-        content.appendChild(warning);
+        productsDiv.innerHTML = '';
+        productsDiv.appendChild(warning);
+        content.appendChild(productsDiv);
       }
     });
+    content.appendChild(productsDiv);
   });
   menu.appendChild(products);
 

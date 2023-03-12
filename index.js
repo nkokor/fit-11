@@ -113,10 +113,31 @@ app.get("/products", function(req, res) {
     let productObjects = [];
     for(let i = 0; i < products.length; i++) {
       productObjects.push({title:products[i].title, price:products[i].price, image:products[i].image, availability:products[i].availability});
-      console.log(productObjects[i]);
     }
     res.status(200);
     res.send(JSON.stringify(productObjects));
+  });
+});
+
+app.get(/\/search\/.*/, function(req, res) {
+  res.setHeader('Content-type', 'application/json');
+  let url = decodeURI(req.url);
+  let searchProduct = url.replace("/search/", '');
+  db.product.findAll().then(products => {
+    let productObjects = [];
+    for(let i = 0; i < products.length; i++) {
+      if(products[i].title.toLowerCase().includes(searchProduct.toLowerCase())){
+        productObjects.push({title:products[i].title, price:products[i].price, image:products[i].image, availability:products[i].availability});
+      }
+    }
+    if(productObjects.length == 0) {
+      let message = {"message":"No results found."};
+      res.status(404);
+      res.send(JSON.stringify(message));
+    } else {
+      res.status(200);
+      res.send(JSON.stringify(productObjects));
+    }
   });
 });
 

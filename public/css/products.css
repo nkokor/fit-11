@@ -50,9 +50,19 @@
   text-align: center;
 }
 
+#no-results {
+  margin: auto;
+  color: rgb(193, 191, 191);
+}
+
 .product-title, .product-price {
   margin: 0px;
   margin-bottom: 7px;
+}
+
+#search-button {
+  color: rgb(181, 181, 181);
+  cursor: pointer;
 }
 
 .product-title {
