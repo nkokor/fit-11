@@ -2,67 +2,67 @@ let ajax = AjaxCalls;
 
 function openHome(content) {
   let headerDiv = document.createElement("div");
-    headerDiv.id = "header-div";
-    let header = document.createElement("img");
-    header.id = "head-image";
-    header.src = "/header.jpg";
-    let welcome = document.createElement("p");
-    welcome.innerText = "Fit-11";
-    welcome.id = "welcome";
-    let message = document.createElement("p");
-    message.innerText = "Where dreams become reality.";
-    message.id = "message";
-    let videoButton = document.createElement("p");
-    videoButton.innerText = "PLAY VIDEO";
-    videoButton.id = "video-button";
-    headerDiv.appendChild(header);
-    headerDiv.appendChild(welcome);
-    headerDiv.appendChild(message);
-    headerDiv.appendChild(videoButton);
-    content.appendChild(headerDiv);
-    let trainings = document.createElement("div");
-    trainings.id = "trainings";
-    let weights = document.createElement("div");
-    weights.className = "circle";
-    let weightsImg = document.createElement("img");
-    weightsImg.className = "circle";
-    weightsImg.src = "/weight-training.jpg";
-    let weightsLink = document.createElement("p");
-    weightsLink.innerText = "WEIGHT TRAINING";
-    weights.appendChild(weightsImg);
-    weights.appendChild(weightsLink);
-    let pilates = document.createElement("div");
-    pilates.className = "circle";
-    let pilatesImg = document.createElement("img");
-    pilatesImg.className = "circle";
-    pilatesImg.src = "/pilates.jpg";
-    let pilatesLink = document.createElement("p");
-    pilatesLink.innerText = "PILATES";
-    pilates.appendChild(pilatesImg);
-    pilates.appendChild(pilatesLink);
-    let yoga = document.createElement("div");
-    yoga.className = "circle";
-    let yogaImg = document.createElement("img");
-    yogaImg.className = "circle";
-    yogaImg.src = "/yogaclass.jpg";
-    let yogaLink = document.createElement("p");
-    yogaLink.innerText = "YOGA";
-    yoga.appendChild(yogaImg);
-    yoga.appendChild(yogaLink);
-    let zumba = document.createElement("div");
-    zumba.className = "circle";
-    let zumbaImg = document.createElement("img");
-    zumbaImg.className = "circle";
-    zumbaImg.src = "/zumba.jpg";
-    let zumbaLink = document.createElement("p");
-    zumbaLink.innerText = "ZUMBA";
-    zumba.appendChild(zumbaImg);
-    zumba.appendChild(zumbaLink);
-    trainings.appendChild(weights);
-    trainings.appendChild(pilates);
-    trainings.appendChild(yoga);
-    trainings.appendChild(zumba);
-    content.appendChild(trainings);
+  headerDiv.id = "header-div";
+  let header = document.createElement("img");
+  header.id = "head-image";
+  header.src = "/header.jpg";
+  let welcome = document.createElement("p");
+  welcome.innerText = "Fit-11";
+  welcome.id = "welcome";
+  let message = document.createElement("p");
+  message.innerText = "Where dreams become reality.";
+  message.id = "message";
+  let videoButton = document.createElement("p");
+  videoButton.innerText = "PLAY VIDEO";
+  videoButton.id = "video-button";
+  headerDiv.appendChild(header);
+  headerDiv.appendChild(welcome);
+  headerDiv.appendChild(message);
+  headerDiv.appendChild(videoButton);
+  content.appendChild(headerDiv);
+  let trainings = document.createElement("div");
+  trainings.id = "trainings";
+  let weights = document.createElement("div");
+  weights.className = "circle";
+  let weightsImg = document.createElement("img");
+  weightsImg.className = "circle";
+  weightsImg.src = "/weight-training.jpg";
+  let weightsLink = document.createElement("p");
+  weightsLink.innerText = "WEIGHT TRAINING";
+  weights.appendChild(weightsImg);
+  weights.appendChild(weightsLink);
+  let pilates = document.createElement("div");
+  pilates.className = "circle";
+  let pilatesImg = document.createElement("img");
+  pilatesImg.className = "circle";
+  pilatesImg.src = "/pilates.jpg";
+  let pilatesLink = document.createElement("p");
+  pilatesLink.innerText = "PILATES";
+  pilates.appendChild(pilatesImg);
+  pilates.appendChild(pilatesLink);
+  let yoga = document.createElement("div");
+  yoga.className = "circle";
+  let yogaImg = document.createElement("img");
+  yogaImg.className = "circle";
+  yogaImg.src = "/yogaclass.jpg";
+  let yogaLink = document.createElement("p");
+  yogaLink.innerText = "YOGA";
+  yoga.appendChild(yogaImg);
+  yoga.appendChild(yogaLink);
+  let zumba = document.createElement("div");
+  zumba.className = "circle";
+  let zumbaImg = document.createElement("img");
+  zumbaImg.className = "circle";
+  zumbaImg.src = "/zumba.jpg";
+  let zumbaLink = document.createElement("p");
+  zumbaLink.innerText = "ZUMBA";
+  zumba.appendChild(zumbaImg);
+  zumba.appendChild(zumbaLink);
+  trainings.appendChild(weights);
+  trainings.appendChild(pilates);
+  trainings.appendChild(yoga);
+  trainings.appendChild(zumba);
+  content.appendChild(trainings);
 }
 
 function openProducts(content, products) {
@@ -153,10 +153,10 @@ window.onload = function() {
   products.addEventListener("click", function() {
     let content = document.getElementById("main-div");
     content.innerText = '';
-
+    let topDiv = document.createElement("div");
+    topDiv.id = "top-div";
     let productsDiv = document.createElement("div");
     productsDiv.id = "products-div";
-
     let searchDiv = document.createElement("div");
     searchDiv.id = "search-div";
     let searchBar = document.createElement("input");
@@ -173,25 +173,32 @@ window.onload = function() {
     searchButton.id = "search-button";
     searchButton.innerText = "Search";
     searchButton.addEventListener("click", function(e) {
-        let product = document.getElementById("search");
-        product = product.value;
-        if(product != null) {
-          ajax.getSearch(product, function(error, data) {
-            if(error == null) {
-              content.appendChild(openProducts(productsDiv, JSON.parse(data)));
-            } else {
-              productsDiv.innerHTML = '';
-              let noResults = document.createElement('p');
-              noResults.innerText = "No results found.";
-              noResults.id = "no-results"
-              productsDiv.appendChild(noResults);
-            }
+      let product = document.getElementById("search");
+      product = product.value;
+      if(product != null) {
+        ajax.getSearch(product, function(error, data) {
+          if(error == null) {
+            content.appendChild(openProducts(productsDiv, JSON.parse(data)));
+          } else {
+            productsDiv.innerHTML = '';
+            let noResults = document.createElement('p');
+            noResults.innerText = "No results found.";
+            noResults.id = "no-results"
+            productsDiv.appendChild(noResults);
+           }
           });
         }
       }
     );
     searchDiv.appendChild(searchButton);
-    content.appendChild(searchDiv);
+    let cartButton = document.createElement("p");
+    cartButton.innerText = "View cart";
+    cartButton.id = "cart";
+    let cartIcon = document.createElement("i");
+    cartIcon.className = "fa fa-shopping-cart";
+    cartButton.appendChild(cartIcon);
+    topDiv.appendChild(searchDiv);
+    topDiv.appendChild(cartButton);
     ajax.getProducts(function(error, data) {
       if(error == null) {
         openProducts(productsDiv, JSON.parse(data));
@@ -204,6 +211,7 @@ window.onload = function() {
         content.appendChild(productsDiv);
       }
     });
+    content.appendChild(topDiv);
     content.appendChild(productsDiv);
   });
   menu.appendChild(products);
