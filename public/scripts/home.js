@@ -65,6 +65,41 @@ function openHome(content) {
   content.appendChild(trainings);
 }
 
+function showCart(content, items) {
+  content.innerHTML = '';
+  if(items == null || items.length == 0) {
+    let emptyCart = document.createElement("p");
+    emptyCart.innerText = "Your cart is empty.";
+    emptyCart.className = "empty-cart";
+    content.appendChild(emptyCart);
+  } else {
+    let itemsDiv = document.createElement("div");
+    itemsDiv.className = "items-div";
+    for(let i = 0; i < items.length; i++) {
+      let itemDiv = document.createElement("div");
+      itemDiv.className = "item-div";
+      let itemImage = document.createElement("img");
+      itemImage.className = "item-image";
+      itemImage.src = items[i].image;
+      let itemTitle = document.createElement("p");
+      itemTitle.className = "item-title";
+      itemTitle.innerText = items[i].title;
+      let itemPrice = document.createElement("p");
+      itemPrice.className = "item-price";
+      itemPrice.innerText = items[i].price;
+      itemDiv.appendChild(itemImage);
+      itemDiv.appendChild(itemTitle);
+      itemDiv.appendChild(itemPrice);
+      let removeButton = document.createElement("p");
+      removeButton.className = "remove-item";
+      removeButton.innerText = "Remove from cart";
+      itemDiv.appendChild(removeButton);
+      itemsDiv.appendChild(itemDiv);
+    }
+    content.appendChild(itemsDiv);
+  }
+}
+
 function openProducts(content, products) {
   content.innerHTML = '';
   for(let i = 0; i < products.length; i++) {
@@ -86,6 +121,9 @@ function openProducts(content, products) {
       let icon = document.createElement("i");
       icon.className = "fa fa-shopping-cart";
       addButton.appendChild(icon);
+      addButton.addEventListener("click", function() {
+        
+      });
     } else {
       addButton.innerText = "Out of stock";
       addButton.className = "out-of-stock-button";
@@ -197,6 +235,15 @@ window.onload = function() {
     let cartIcon = document.createElement("i");
     cartIcon.className = "fa fa-shopping-cart";
     cartButton.appendChild(cartIcon);
+    cartButton.addEventListener("click", function() {
+      ajax.getCart(function(error, data) {
+        if(error == null) {
+          showCart(content, data);
+        } else {
+          location.href("/login.html");
+        }
+      });
+    });
     topDiv.appendChild(searchDiv);
     topDiv.appendChild(cartButton);
     ajax.getProducts(function(error, data) {
