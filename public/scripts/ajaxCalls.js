@@ -95,12 +95,29 @@ const AjaxCalls = (()=>{
       fnCallback(error, data);
     }
   }
+  function sendCartRequest(fnCallback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "/cart", true);
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.send();
+    xhr.onreadystatechange = function() {
+      let error = null;
+      let data = null;
+      if(xhr.status == 200 && xhr.readyState == 4) {
+        data = xhr.responseText;
+      } else {
+        error = xhr.responseText;
+      }
+      fnCallback(error, data);
+    }
+  }
   return{
   postLogin: sendLoginRequest,
   postLogout: sendLogoutRequest,
   getHome: sendHomeRequest,
   postRegister: sendRegisterRequest,
   getProducts: sendProductsRequest,
-  getSearch: sendSearchRequest
+  getSearch: sendSearchRequest,
+  getCart: sendCartRequest
   };
   })();

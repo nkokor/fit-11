@@ -40,6 +40,7 @@ app.post("/login", function(req, res) {
     if(validUser && req.body.password != null) {
       if(bcrypt.compareSync(req.body.password, user.password_hash)) {
         req.session.username = req.body.username;
+        req.session.cart = [];
           message = {"message":"Successful login"};
           res.status(200);
           res.send(JSON.stringify(message));
@@ -139,6 +140,16 @@ app.get(/\/search\/.*/, function(req, res) {
       res.send(JSON.stringify(productObjects));
     }
   });
+});
+
+app.get("/cart", function(req, res) {
+  res.setHeader('Content-type', 'application/json');
+  if(req.session.username == null) {
+    res.status(403);
+    res.send(JSON.stringify(message));
+  } else {
+    res.send(JSON.stringify(req.session.cart));
+  }
 });
 
 app.listen(3000);
