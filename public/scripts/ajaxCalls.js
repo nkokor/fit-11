@@ -111,6 +111,22 @@ const AjaxCalls = (()=>{
       fnCallback(error, data);
     }
   }
+  function sendItemRequest(item, fnCallback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", encodeURI("/add/" + item), true);
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.send();
+    xhr.onreadystatechange = function() {
+      let error = null;
+      let data = null;
+      if(xhr.status == 200 && xhr.readyState == 4) {
+        data = xhr.responseText;
+      } else {
+        error = xhr.responseText;
+      }
+      fnCallback(error, data);
+    }
+  }
   return{
   postLogin: sendLoginRequest,
   postLogout: sendLogoutRequest,
@@ -118,6 +134,7 @@ const AjaxCalls = (()=>{
   postRegister: sendRegisterRequest,
   getProducts: sendProductsRequest,
   getSearch: sendSearchRequest,
-  getCart: sendCartRequest
+  getCart: sendCartRequest,
+  postItem: sendItemRequest
   };
-  })();
+})();

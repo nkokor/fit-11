@@ -86,10 +86,13 @@ function showCart(content, items) {
       itemTitle.innerText = items[i].title;
       let itemPrice = document.createElement("p");
       itemPrice.className = "item-price";
-      itemPrice.innerText = items[i].price;
+      itemPrice.innerText = items[i].price + "$";
       itemDiv.appendChild(itemImage);
-      itemDiv.appendChild(itemTitle);
-      itemDiv.appendChild(itemPrice);
+      let infoDiv = document.createElement("div");
+      infoDiv.className = "item-info-div";
+      infoDiv.appendChild(itemTitle);
+      infoDiv.appendChild(itemPrice);
+      itemDiv.appendChild(infoDiv);
       let removeButton = document.createElement("p");
       removeButton.className = "remove-item";
       removeButton.innerText = "Remove from cart";
@@ -122,7 +125,13 @@ function openProducts(content, products) {
       icon.className = "fa fa-shopping-cart";
       addButton.appendChild(icon);
       addButton.addEventListener("click", function() {
-        
+        ajax.postItem(title.innerText, function(error, data) {
+          if(error == null) {
+            console.log(" nema error")
+          } else {
+            console.log(" error")
+          }
+        });
       });
     } else {
       addButton.innerText = "Out of stock";
@@ -238,9 +247,8 @@ window.onload = function() {
     cartButton.addEventListener("click", function() {
       ajax.getCart(function(error, data) {
         if(error == null) {
-          showCart(content, data);
+          showCart(content, JSON.parse(data));
         } else {
-          location.href("/login.html");
         }
       });
     });
