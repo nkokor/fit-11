@@ -8,10 +8,10 @@ html {
 
 body {
   height: min-content;
+  font-family: Montserrat;
 }
 
 #login-div {
-  font-family: Roboto;
   font-weight: 300;
   padding-left: 30px;
   padding-right: 30px;
