@@ -185,13 +185,14 @@ app.post(/\/remove\/.*/, function(req, res) {
     if(product != null) {
       db.product.update({availability:product.availability+1}, {where:{title:product.title}}).then(p => {
         let newCart = [];
+        let removed = false;
         for(let i = 0; i < req.session.cart.length; i++) {
-          if(req.session.cart[i].title != item) {
-            newCart.push(req.session.cart[i]);
+          if(req.session.cart[i].title == item) {
+            req.session.cart.splice(i, 1);
+            break;
           }
         }
         res.status(200);
-        req.session.cart = newCart;
         res.send(JSON.stringify(req.session.cart));
       });
     } else {
