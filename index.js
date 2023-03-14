@@ -146,6 +146,7 @@ app.get("/cart", function(req, res) {
   res.setHeader('Content-type', 'application/json');
   if(req.session.username == null) {
     res.status(403);
+    let message = {"message":"User not logged in!"};
     res.send(JSON.stringify(message));
   } else {
     res.send(JSON.stringify(req.session.cart));
@@ -175,6 +176,30 @@ app.post(/\/add\/.*/, function(req, res) {
       }
     });
   }
+});
+
+app.post(/\/remove\/.*/, function(req, res) {
+  res.setHeader('Content-type', 'application/json');
+  let item = decodeURI(req.url).replace("/remove/", '');
+  db.product.findOne({where:{title:item}}).then(product => {
+    if(product != null) {
+      db.product.update({availability:product.availability+1}, {where:{title:product.title}}).then(p => {
+        let newCart = [];
+        for(let i = 0; i < req.session.cart.length; i++) {
+          if(req.session.cart[i].title != item) {
+            newCart.push(req.session.cart[i]);
+          }
+        }
+        res.status(200);
+        req.session.cart = newCart;
+        res.send(JSON.stringify(req.session.cart));
+      });
+    } else {
+      let message = {"message":"Item not found!"};
+      res.status(404);
+      res.send(JSON.stringify(message));
+    }
+  });
 });
 
 app.listen(3000);

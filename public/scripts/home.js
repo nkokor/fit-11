@@ -96,6 +96,13 @@ function showCart(content, items) {
       let removeButton = document.createElement("p");
       removeButton.className = "remove-item";
       removeButton.innerText = "Remove from cart";
+      removeButton.addEventListener("click", function() {
+        ajax.postRemoveItem(itemTitle.innerText, function(error, data) {
+          if(error == null) {
+            showCart(content, JSON.parse(data));
+          }
+        });
+      });
       itemDiv.appendChild(removeButton);
       itemsDiv.appendChild(itemDiv);
     }
@@ -125,7 +132,7 @@ function openProducts(content, products) {
       icon.className = "fa fa-shopping-cart";
       addButton.appendChild(icon);
       addButton.addEventListener("click", function() {
-        ajax.postItem(title.innerText, function(error, data) {
+        ajax.postAddItem(title.innerText, function(error, data) {
           if(error == null) {
             console.log(" nema error")
           } else {
