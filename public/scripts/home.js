@@ -67,6 +67,24 @@ function openHome(content) {
 
 function showCart(content, items) {
   content.innerHTML = '';
+  let headDiv = document.createElement("div");
+  headDiv.id = "cart-head-div";
+  let backButton = document.createElement("p");
+  backButton.id = "back-button";
+  backButton.innerText = "Back to shop";
+  backButton.addEventListener("click", function() {
+    ajax.getProducts(function(error, data) {
+      if(error == null) {
+        openProducts(content, JSON.parse(data));
+      }
+    });
+  });
+  headDiv.appendChild(backButton);
+  let title = document.createElement("p");
+  title.id = "items-number";
+  title.innerText = "Your cart (" + items.length + " items)";
+  headDiv.appendChild(title);
+  content.appendChild(headDiv);
   if(items == null || items.length == 0) {
     let emptyCart = document.createElement("p");
     emptyCart.innerText = "Your cart is empty.";
