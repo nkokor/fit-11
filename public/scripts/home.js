@@ -65,6 +65,79 @@ function openHome(content) {
   content.appendChild(trainings);
 }
 
+function showProducts() {
+  let content = document.getElementById("main-div");
+    content.innerText = '';
+    let topDiv = document.createElement("div");
+    topDiv.id = "top-div";
+    let productsDiv = document.createElement("div");
+    productsDiv.id = "products-div";
+    let searchDiv = document.createElement("div");
+    searchDiv.id = "search-div";
+    let searchBar = document.createElement("input");
+    searchBar.id = "search";
+    searchBar.type = "text";
+    searchBar.placeholder = "Search products";
+    let icon = document.createElement("i");
+    icon.className = "fa-solid fa-search";
+    icon.id = "search-icon";
+    icon.ariaHidden = "false";
+    searchDiv.appendChild(icon);
+    searchDiv.appendChild(searchBar);
+    let searchButton = document.createElement("p");
+    searchButton.id = "search-button";
+    searchButton.innerText = "Search";
+    searchButton.addEventListener("click", function(e) {
+      let product = document.getElementById("search");
+      product = product.value;
+      if(product != null) {
+        ajax.getSearch(product, function(error, data) {
+          if(error == null) {
+            content.appendChild(openProducts(productsDiv, JSON.parse(data)));
+          } else {
+            productsDiv.innerHTML = '';
+            let noResults = document.createElement('p');
+            noResults.innerText = "No results found.";
+            noResults.id = "no-results"
+            productsDiv.appendChild(noResults);
+           }
+          });
+        }
+      }
+    );
+    searchDiv.appendChild(searchButton);
+    let cartButton = document.createElement("p");
+    cartButton.innerText = "View cart";
+    cartButton.id = "cart";
+    let cartIcon = document.createElement("i");
+    cartIcon.className = "fa fa-shopping-cart";
+    cartButton.appendChild(cartIcon);
+    cartButton.addEventListener("click", function() {
+      ajax.getCart(function(error, data) {
+        if(error == null) {
+          showCart(content, JSON.parse(data));
+        } else {
+        }
+      });
+    });
+    topDiv.appendChild(searchDiv);
+    topDiv.appendChild(cartButton);
+    ajax.getProducts(function(error, data) {
+      if(error == null) {
+        openProducts(productsDiv, JSON.parse(data));
+        content.appendChild(productsDiv);
+      } else {
+        let warning = document.createElement('p');
+        warning.id = "warning";
+        productsDiv.innerHTML = '';
+        productsDiv.appendChild(warning);
+        content.appendChild(productsDiv);
+      }
+    });
+    content.appendChild(topDiv);
+    content.appendChild(productsDiv);
+}
+
 function showCart(content, items) {
   content.innerHTML = '';
   let headDiv = document.createElement("div");
@@ -73,11 +146,7 @@ function showCart(content, items) {
   backButton.id = "back-button";
   backButton.innerText = "Back to shop";
   backButton.addEventListener("click", function() {
-    ajax.getProducts(function(error, data) {
-      if(error == null) {
-        openProducts(content, JSON.parse(data));
-      }
-    });
+    showProducts();
   });
   headDiv.appendChild(backButton);
   let title = document.createElement("p");
@@ -223,76 +292,7 @@ window.onload = function() {
   products.innerText = "PRODUCTS";
   products.id = "products";
   products.addEventListener("click", function() {
-    let content = document.getElementById("main-div");
-    content.innerText = '';
-    let topDiv = document.createElement("div");
-    topDiv.id = "top-div";
-    let productsDiv = document.createElement("div");
-    productsDiv.id = "products-div";
-    let searchDiv = document.createElement("div");
-    searchDiv.id = "search-div";
-    let searchBar = document.createElement("input");
-    searchBar.id = "search";
-    searchBar.type = "text";
-    searchBar.placeholder = "Search products";
-    let icon = document.createElement("i");
-    icon.className = "fa-solid fa-search";
-    icon.id = "search-icon";
-    icon.ariaHidden = "false";
-    searchDiv.appendChild(icon);
-    searchDiv.appendChild(searchBar);
-    let searchButton = document.createElement("p");
-    searchButton.id = "search-button";
-    searchButton.innerText = "Search";
-    searchButton.addEventListener("click", function(e) {
-      let product = document.getElementById("search");
-      product = product.value;
-      if(product != null) {
-        ajax.getSearch(product, function(error, data) {
-          if(error == null) {
-            content.appendChild(openProducts(productsDiv, JSON.parse(data)));
-          } else {
-            productsDiv.innerHTML = '';
-            let noResults = document.createElement('p');
-            noResults.innerText = "No results found.";
-            noResults.id = "no-results"
-            productsDiv.appendChild(noResults);
-           }
-          });
-        }
-      }
-    );
-    searchDiv.appendChild(searchButton);
-    let cartButton = document.createElement("p");
-    cartButton.innerText = "View cart";
-    cartButton.id = "cart";
-    let cartIcon = document.createElement("i");
-    cartIcon.className = "fa fa-shopping-cart";
-    cartButton.appendChild(cartIcon);
-    cartButton.addEventListener("click", function() {
-      ajax.getCart(function(error, data) {
-        if(error == null) {
-          showCart(content, JSON.parse(data));
-        } else {
-        }
-      });
-    });
-    topDiv.appendChild(searchDiv);
-    topDiv.appendChild(cartButton);
-    ajax.getProducts(function(error, data) {
-      if(error == null) {
-        openProducts(productsDiv, JSON.parse(data));
-        content.appendChild(productsDiv);
-      } else {
-        let warning = document.createElement('p');
-        warning.id = "warning";
-        productsDiv.innerHTML = '';
-        productsDiv.appendChild(warning);
-        content.appendChild(productsDiv);
-      }
-    });
-    content.appendChild(topDiv);
-    content.appendChild(productsDiv);
+    showProducts();
   });
   menu.appendChild(products);
 
