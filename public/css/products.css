@@ -31,23 +31,7 @@
 }
 
 #main-div {
-  margin-top: 90px;
-}
-
-#cart-head-div {
-  width: 700px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-#items-number {
-  text-align: center;
-  font-size: larger;
-}
-
-#back-button {
-  cursor: pointer;
+  margin-top: 60px;
 }
 
 #cart {
@@ -76,7 +60,7 @@
   grid-template-columns: repeat(auto-fill, minmax(260px, 260px));
   justify-content: center;
   width: 100%;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 .product-div {

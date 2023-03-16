@@ -1,3 +1,20 @@
+
+#cart-head-div {
+  width: 1400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#items-number {
+  text-align: center;
+  font-size: larger;
+}
+
+#back-button {
+  cursor: pointer;
+}
+
 .item-div {
   display: flex;
   flex-direction: row;

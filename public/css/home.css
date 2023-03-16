@@ -36,7 +36,7 @@ body {
 }
 
 #main-div {
-  margin-top: 50px;
+  margin-top: 0px;
 }
 
 #header-div{
@@ -131,9 +131,13 @@ body {
   cursor: pointer;
   border: 0px;
   font-weight: 300;
-  margin-left: 3%;
+  margin-left: 2%;
+  margin-right: 4%;
   width: 116px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #signup-button {

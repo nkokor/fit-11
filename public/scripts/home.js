@@ -93,7 +93,7 @@ function showProducts() {
       if(product != null) {
         ajax.getSearch(product, function(error, data) {
           if(error == null) {
-            content.appendChild(openProducts(productsDiv, JSON.parse(data)));
+            content.appendChild(showCatalogue(productsDiv, JSON.parse(data)));
           } else {
             productsDiv.innerHTML = '';
             let noResults = document.createElement('p');
@@ -124,7 +124,7 @@ function showProducts() {
     topDiv.appendChild(cartButton);
     ajax.getProducts(function(error, data) {
       if(error == null) {
-        openProducts(productsDiv, JSON.parse(data));
+        showCatalogue(productsDiv, JSON.parse(data));
         content.appendChild(productsDiv);
       } else {
         let warning = document.createElement('p');
@@ -197,7 +197,7 @@ function showCart(content, items) {
   }
 }
 
-function openProducts(content, products) {
+function showCatalogue(content, products) {
   content.innerHTML = '';
   for(let i = 0; i < products.length; i++) {
     let productDiv = document.createElement("div");
