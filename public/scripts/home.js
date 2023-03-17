@@ -140,6 +140,7 @@ function showProducts() {
 
 function showCart(content, items) {
   content.innerHTML = '';
+  let totalCost = 0;
   let headDiv = document.createElement("div");
   headDiv.id = "cart-head-div";
   let backButton = document.createElement("p");
@@ -160,26 +161,69 @@ function showCart(content, items) {
     emptyCart.className = "empty-cart";
     content.appendChild(emptyCart);
   } else {
+    let labelDiv = document.createElement("div");
+    labelDiv.id = "label-div";
     let itemsDiv = document.createElement("div");
     itemsDiv.className = "items-div";
+    let titleHead = document.createElement("p");
+    titleHead.id = "title-head";
+    titleHead.innerText = "Item";
+    let priceHead = document.createElement("p");
+    priceHead.id = "price-head";
+    priceHead.innerText = "Price";
+    let quantityHead = document.createElement("p");
+    quantityHead.id = "quantity-head";
+    quantityHead.innerText = "Quantity";
+    let totalHead = document.createElement("p");
+    totalHead.id = "total-head";
+    totalHead.innerText = "Total";
+    labelDiv.appendChild(titleHead);
+    labelDiv.appendChild(priceHead);
+    labelDiv.appendChild(quantityHead);
+    labelDiv.appendChild(totalHead);
+    itemsDiv.appendChild(labelDiv);
     for(let i = 0; i < items.length; i++) {
       let itemDiv = document.createElement("div");
       itemDiv.className = "item-div";
+
+      let itemLink = document.createElement("div");
+      itemLink.className = "item-link";
       let itemImage = document.createElement("img");
       itemImage.className = "item-image";
       itemImage.src = items[i].image;
       let itemTitle = document.createElement("p");
       itemTitle.className = "item-title";
       itemTitle.innerText = items[i].title;
+      itemLink.appendChild(itemImage);
+      itemLink.appendChild(itemTitle);
+
       let itemPrice = document.createElement("p");
       itemPrice.className = "item-price";
-      itemPrice.innerText = items[i].price + "$";
-      itemDiv.appendChild(itemImage);
-      let infoDiv = document.createElement("div");
-      infoDiv.className = "item-info-div";
-      infoDiv.appendChild(itemTitle);
-      infoDiv.appendChild(itemPrice);
-      itemDiv.appendChild(infoDiv);
+      itemPrice.innerText = "$" + items[i].price;
+
+      let quantityDiv = document.createElement("div");
+      quantityDiv.className = "quantity-div";
+      let minusButton = document.createElement("p");
+      minusButton.innerText = "-";
+      minusButton.className = "quantity-button";
+      let itemQuantity = document.createElement("p");
+      itemQuantity.innerText = "1";
+      itemQuantity.className = "item-quantity";
+      let plusButton = document.createElement("p");
+      plusButton.innerText = "+";
+      plusButton.className = "quantity-button";
+      quantityDiv.appendChild(minusButton);
+      quantityDiv.appendChild(itemQuantity);
+      quantityDiv.appendChild(plusButton);
+
+      let totalPrice = document.createElement("p");
+      totalPrice.innerText = "$" + items[i].price;
+      totalPrice.className = "total-price";
+      totalCost += items[i].price;
+      itemDiv.appendChild(itemLink);
+      itemDiv.appendChild(itemPrice);
+      itemDiv.appendChild(quantityDiv);
+      itemDiv.appendChild(totalPrice);
       let removeButton = document.createElement("p");
       removeButton.className = "remove-item";
       removeButton.innerText = "Remove from cart";
@@ -193,6 +237,18 @@ function showCart(content, items) {
       itemDiv.appendChild(removeButton);
       itemsDiv.appendChild(itemDiv);
     }
+    let totalCostDiv = document.createElement("div");
+    totalCostDiv.id = "total-cost-div";
+    let empty = document.createElement("div");
+    totalCostDiv.appendChild(empty);
+    let totalCostLabel = document.createElement("p");
+    totalCostLabel.id = "total-label";
+    totalCostLabel.innerText = "Total: ";
+    let totalCostNumber = document.createElement("p");
+    totalCostNumber.innerText = "$" + totalCost;
+    totalCostDiv.appendChild(totalCostLabel);
+    totalCostDiv.appendChild(totalCostNumber);
+    itemsDiv.appendChild(totalCostDiv);
     content.appendChild(itemsDiv);
   }
 }
