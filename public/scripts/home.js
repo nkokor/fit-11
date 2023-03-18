@@ -249,6 +249,15 @@ function showCart(content, items) {
     totalCostDiv.appendChild(totalCostLabel);
     totalCostDiv.appendChild(totalCostNumber);
     itemsDiv.appendChild(totalCostDiv);
+    let checkout = document.createElement("div");
+    checkout.id = "checkout-div";
+    let emptySpace = document.createElement("div");
+    checkout.appendChild(emptySpace);
+    let checkoutButton = document.createElement("p");
+    checkoutButton.innerText = "CHECKOUT";
+    checkoutButton.id = "checkout-button";
+    checkout.appendChild(checkoutButton);
+    itemsDiv.appendChild(checkout);
     content.appendChild(itemsDiv);
   }
 }
