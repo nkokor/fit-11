@@ -4,8 +4,24 @@ function clearContent(contentDiv) {
   contentDiv.innerHTML = null;
 }
 
-function showHome(contentDiv) {
+function changeMenuItemColor(menuItem) {
+  let menuItems = document.getElementsByClassName("menu-item");
+  for(let i = 0; i < menuItems.length; i += 1) {
+    if(menuItems[i].id == menuItem.id) {
+      menuItems[i].style.color = "rgb(157, 144, 122)";
+    } else {
+      menuItems[i].style.color = "black";
+    }
+  }
+}
+
+function preparePage(contentDiv, menuItem) {
   clearContent(contentDiv);
+  changeMenuItemColor(menuItem);
+}
+
+function showHome(contentDiv, menuItem) {
+  preparePage(contentDiv, menuItem);
   let headerDiv = document.createElement("div");
   headerDiv.id = "header-div";
   let header = document.createElement("img");
@@ -70,8 +86,8 @@ function showHome(contentDiv) {
   contentDiv.appendChild(trainings);
 }
 
-function showProducts(contentDiv) {
-    clearContent(contentDiv);
+function showProducts(contentDiv, menuItem) {
+  preparePage(contentDiv, menuItem);
     let topDiv = document.createElement("div");
     topDiv.id = "top-div";
     let productsDiv = document.createElement("div");
@@ -126,12 +142,12 @@ function showProducts(contentDiv) {
 }
 
 
-function showAbout(contentDiv) {
-  clearContent(contentDiv);
+function showAbout(contentDiv, menuItem) {
+  preparePage(contentDiv, menuItem);
 }
 
-function showWorkouts(contentDiv) {
-  clearContent(contentDiv);
+function showWorkouts(contentDiv, menuItem) {
+  preparePage(contentDiv, menuItem);
 }
 
 function showCart(contentDiv, items) {
@@ -313,25 +329,25 @@ window.onload = function() {
   //home
   let home = document.getElementById("home");
   home.addEventListener("click", function() {
-    showHome(contentDiv);
+    showHome(contentDiv, home);
   });
 
   //about
   let about = document.getElementById("about");
   about.addEventListener("click", function() {
-    showAbout(contentDiv);
+    showAbout(contentDiv, about);
   });
 
   //workouts
   let workouts = document.getElementById("workouts");
   workouts.addEventListener("click", function() {
-    showWorkouts(contentDiv);
+    showWorkouts(contentDiv, workouts);
   });
 
   //products
   let products = document.getElementById("products");
   products.addEventListener("click", function() {
-    showProducts(contentDiv);
+    showProducts(contentDiv, products);
   });
 
   //account info space
@@ -358,7 +374,7 @@ window.onload = function() {
   accountDiv.appendChild(signup);
   menuDiv.appendChild(accountDiv);
 
-  showHome(contentDiv);
+  showHome(contentDiv, home);
 }
 
 
