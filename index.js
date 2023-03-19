@@ -143,12 +143,14 @@ app.get(/\/search\/.*/, function(req, res) {
 });
 
 app.get("/cart", function(req, res) {
-  res.setHeader('Content-type', 'application/json');
   if(req.session.username == null) {
     res.status(403);
+    res.setHeader('Content-type', 'application/json');
     let message = {"message":"User not logged in!"};
     res.send(JSON.stringify(message));
   } else {
+    res.status(200);
+    res.setHeader('Content-type', 'application/json');
     res.send(JSON.stringify(req.session.cart));
   }
 });
@@ -162,15 +164,15 @@ app.post(/\/add\/.*/, function(req, res) {
   } else {
     let item = decodeURI(req.url).replace("/add/", '');
     db.product.findOne({where:{title:item}}).then(product => {
-      let newAvailability = product.availability - 1;
       if(product == null) {
         res.status(403);
         let message = {"error":"Item not found."};
         res.send(JSON.stringify(message));
       } else {
-        req.session.cart.push({title:item, price:product.price, image:product.image});
+        let newAvailability = product.availability - 1;
         db.product.update({availability:newAvailability}, {where:{title:item}}).then(p => {
           res.status(200);
+          req.session.cart.push({title:item, price:product.price, image:product.image});
           res.send(JSON.stringify(req.session.cart));
         });
       }

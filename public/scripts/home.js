@@ -1,6 +1,11 @@
 let ajax = AjaxCalls;
 
-function openHome(content) {
+function clearContent(contentDiv) {
+  contentDiv.innerHTML = null;
+}
+
+function showHome(contentDiv) {
+  clearContent(contentDiv);
   let headerDiv = document.createElement("div");
   headerDiv.id = "header-div";
   let header = document.createElement("img");
@@ -19,7 +24,7 @@ function openHome(content) {
   headerDiv.appendChild(welcome);
   headerDiv.appendChild(message);
   headerDiv.appendChild(videoButton);
-  content.appendChild(headerDiv);
+  contentDiv.appendChild(headerDiv);
   let trainings = document.createElement("div");
   trainings.id = "trainings";
   let weights = document.createElement("div");
@@ -62,12 +67,11 @@ function openHome(content) {
   trainings.appendChild(pilates);
   trainings.appendChild(yoga);
   trainings.appendChild(zumba);
-  content.appendChild(trainings);
+  contentDiv.appendChild(trainings);
 }
 
-function showProducts() {
-  let content = document.getElementById("main-div");
-    content.innerText = '';
+function showProducts(contentDiv) {
+    clearContent(contentDiv);
     let topDiv = document.createElement("div");
     topDiv.id = "top-div";
     let productsDiv = document.createElement("div");
@@ -87,24 +91,7 @@ function showProducts() {
     let searchButton = document.createElement("p");
     searchButton.id = "search-button";
     searchButton.innerText = "Search";
-    searchButton.addEventListener("click", function(e) {
-      let product = document.getElementById("search");
-      product = product.value;
-      if(product != null) {
-        ajax.getSearch(product, function(error, data) {
-          if(error == null) {
-            content.appendChild(showCatalogue(productsDiv, JSON.parse(data)));
-          } else {
-            productsDiv.innerHTML = '';
-            let noResults = document.createElement('p');
-            noResults.innerText = "No results found.";
-            noResults.id = "no-results"
-            productsDiv.appendChild(noResults);
-           }
-          });
-        }
-      }
-    );
+  
     searchDiv.appendChild(searchButton);
     let cartButton = document.createElement("p");
     cartButton.innerText = "View cart";
@@ -115,7 +102,7 @@ function showProducts() {
     cartButton.addEventListener("click", function() {
       ajax.getCart(function(error, data) {
         if(error == null) {
-          showCart(content, JSON.parse(data));
+          showCart(contentDiv, JSON.parse(data));
         } else {
         }
       });
@@ -125,21 +112,30 @@ function showProducts() {
     ajax.getProducts(function(error, data) {
       if(error == null) {
         showCatalogue(productsDiv, JSON.parse(data));
-        content.appendChild(productsDiv);
+        contentDiv.appendChild(productsDiv);
       } else {
         let warning = document.createElement('p');
         warning.id = "warning";
         productsDiv.innerHTML = '';
         productsDiv.appendChild(warning);
-        content.appendChild(productsDiv);
+        contentDiv.appendChild(productsDiv);
       }
     });
-    content.appendChild(topDiv);
-    content.appendChild(productsDiv);
+    contentDiv.appendChild(topDiv);
+    contentDiv.appendChild(productsDiv);
 }
 
-function showCart(content, items) {
-  content.innerHTML = '';
+
+function showAbout(contentDiv) {
+  clearContent(contentDiv);
+}
+
+function showWorkouts(contentDiv) {
+  clearContent(contentDiv);
+}
+
+function showCart(contentDiv, items) {
+  contentDiv.innerHTML = '';
   let totalCost = 0;
   let headDiv = document.createElement("div");
   headDiv.id = "cart-head-div";
@@ -154,12 +150,12 @@ function showCart(content, items) {
   title.id = "items-number";
   title.innerText = "Your cart (" + items.length + " items)";
   headDiv.appendChild(title);
-  content.appendChild(headDiv);
+  contentDiv.appendChild(headDiv);
   if(items == null || items.length == 0) {
     let emptyCart = document.createElement("p");
     emptyCart.innerText = "Your cart is empty.";
     emptyCart.className = "empty-cart";
-    content.appendChild(emptyCart);
+    contentDiv.appendChild(emptyCart);
   } else {
     let labelDiv = document.createElement("div");
     labelDiv.id = "label-div";
@@ -230,7 +226,7 @@ function showCart(content, items) {
       removeButton.addEventListener("click", function() {
         ajax.postRemoveItem(itemTitle.innerText, function(error, data) {
           if(error == null) {
-            showCart(content, JSON.parse(data));
+            showCart(contentDiv, JSON.parse(data));
           }
         });
       });
@@ -258,7 +254,7 @@ function showCart(content, items) {
     checkoutButton.id = "checkout-button";
     checkout.appendChild(checkoutButton);
     itemsDiv.appendChild(checkout);
-    content.appendChild(itemsDiv);
+    contentDiv.appendChild(itemsDiv);
   }
 }
 
@@ -311,64 +307,42 @@ window.onload = function() {
   script.src = "https://kit.fontawesome.com/10ba21a9a2.js";
   script.crossOrigin = "anonymous";
   head.appendChild(script);
-  let content = document.getElementById("content");
-  content.id = "content";
-  let menu = document.createElement("div");
-  menu.id = "main-menu";
-  let logo = document.createElement("img");
-  logo.id = "logo";
-  logo.src = "/transparent-logo.png";
-  menu.appendChild(logo);
 
+  let contentDiv = document.getElementById("main-div");
+  
   //home
-  let home = document.createElement("p");
-  home.className = "menu-item";
-  home.innerText = "HOME";
+  let home = document.getElementById("home");
   home.addEventListener("click", function() {
-    let content = document.getElementById("main-div");
-    content.innerText = '';
-    openHome(content);
+    showHome(contentDiv);
   });
-  menu.appendChild(home);
 
   //about
-  let about = document.createElement("p");
-  about.className = "menu-item";
-  about.innerText = "ABOUT US";
+  let about = document.getElementById("about");
   about.addEventListener("click", function() {
-    let content = document.getElementById("main-div");
-    content.innerText = '';
+    showAbout(contentDiv);
   });
-  menu.appendChild(about);
 
   //workouts
-  let workouts = document.createElement("p");
-  workouts.className = "menu-item";
-  workouts.innerText = "WORKOUTS";
+  let workouts = document.getElementById("workouts");
   workouts.addEventListener("click", function() {
-    let content = document.getElementById("main-div");
-    content.innerText = '';
+    showWorkouts(contentDiv);
   });
-  menu.appendChild(workouts);
 
   //products
-  let products = document.createElement("p");
-  products.className = "menu-item";
-  products.innerText = "PRODUCTS";
-  products.id = "products";
+  let products = document.getElementById("products");
   products.addEventListener("click", function() {
-    showProducts();
+    showProducts(contentDiv);
   });
-  menu.appendChild(products);
 
   //account info space
-  let accountDiv = document.createElement("div");
-  accountDiv.id = "account-div";
+  let menuDiv = document.getElementById("main-menu");
+  let accountDiv = document.getElementById("account-div");
+
   let login = document.createElement("p");
-  let signup = document.createElement("p");
   login.innerText = "LOG IN";
-  signup.innerText = "SIGN UP";
   login.className = "account-button";
+  let signup = document.createElement("p");
+  signup.innerText = "SIGN UP";
   signup.className = "account-button";
   signup.id = "signup-button";
 
@@ -382,15 +356,30 @@ window.onload = function() {
 
   accountDiv.appendChild(login);
   accountDiv.appendChild(signup);
-  menu.appendChild(accountDiv);
+  menuDiv.appendChild(accountDiv);
 
-  let mainContent = document.createElement("div");
-  mainContent.id = "main-div";
-
-  openHome(mainContent);
-
-  content.appendChild(menu);
-  content.appendChild(mainContent);
+  showHome(contentDiv);
 }
 
+
+let mainDiv = document.getElementById("main-div")
+mainDiv.addEventListener('click', function(event) {
+  if(event.target.id == "search-button") {
+    let product = document.getElementById("search");
+      product = product.value;
+      if(product != null) {
+        ajax.getSearch(product, function(error, data) {
+          if(error == null) {
+            content.appendChild(showCatalogue(productsDiv, JSON.parse(data)));
+          } else {
+            productsDiv.innerHTML = '';
+            let noResults = document.createElement('p');
+            noResults.innerText = "No results found.";
+            noResults.id = "no-results"
+            productsDiv.appendChild(noResults);
+          }
+      });
+    }
+  }
+});
 
