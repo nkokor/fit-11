@@ -69,6 +69,19 @@ app.post("/logout", function(req, res) {
   res.send(JSON.stringify(message));
 });
 
+app.get("/user", function(req, res) {
+  res.setHeader('Content-type', 'application/json');
+  if(req.session.username == null) {
+    let message = {"error":"User not logged in"};
+    res.status(403);
+    res.send(JSON.stringify(message));
+  } else {
+    let user = {"username":req.session.username};
+    res.status(200);
+    res.send(JSON.stringify(user));
+  }
+});
+
 app.get("/content", function(req, res) {
   res.setHeader('Content-type', 'application/json');
   if(req.session.username == null) {

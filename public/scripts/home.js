@@ -354,25 +354,42 @@ window.onload = function() {
   let menuDiv = document.getElementById("main-menu");
   let accountDiv = document.getElementById("account-div");
 
-  let login = document.createElement("p");
-  login.innerText = "LOG IN";
-  login.className = "account-button";
-  let signup = document.createElement("p");
-  signup.innerText = "SIGN UP";
-  signup.className = "account-button";
-  signup.id = "signup-button";
+  ajax.getUser(function(error, data) {
+    accountDiv.innerHTML = "";
+    if(error == null) {
+      let userImage = document.createElement("img");
+      userImage.id = "user-image";
+      //image will eventually be changed to actual profile photo
+      userImage.src = "/user.jpg";
+      let username = document.createElement("p");
+      username.id = "username";
+      username.innerText = JSON.parse(data).username;
+      let dropMenu = document.createElement("i");
+      dropMenu.className = "arrow-down";
+      accountDiv.appendChild(userImage);
+      accountDiv.appendChild(username);
+      accountDiv.appendChild(dropMenu);
+    } else {
+        let login = document.createElement("p");
+        login.innerText = "LOG IN";
+        login.className = "account-button";
+        let signup = document.createElement("p");
+        signup.innerText = "SIGN UP";
+        signup.className = "account-button";
+        signup.id = "signup-button";
 
-  login.addEventListener("click", function() {
-    location.href = "login.html";
+        login.addEventListener("click", function() {
+          location.href = "login.html";
+        });
+
+        signup.addEventListener("click", function() {
+          location.href = "signin.html";
+        });
+
+        accountDiv.appendChild(login);
+        accountDiv.appendChild(signup);
+    }
   });
-
-  signup.addEventListener("click", function() {
-    location.href = "signin.html";
-  });
-
-  accountDiv.appendChild(login);
-  accountDiv.appendChild(signup);
-  menuDiv.appendChild(accountDiv);
 
   showHome(contentDiv, home);
 }

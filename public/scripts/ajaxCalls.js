@@ -1,4 +1,5 @@
 const AjaxCalls = (()=>{
+
   function sendLoginRequest(username, password, fnCallback){ 
     let xhr = new XMLHttpRequest()
     xhr.open("POST", "/login", true);
@@ -16,6 +17,7 @@ const AjaxCalls = (()=>{
       fnCallback(error, data);
     }
   }
+
   function sendLogoutRequest(fnCallback){
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/logout", true);
@@ -31,9 +33,26 @@ const AjaxCalls = (()=>{
       fnCallback(error, data);
     }
   }
+
+  function sendUserRequest(fnCallback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "/user", true);
+    xhr.send();
+    xhr.onreadystatechange = function() {
+      let error = null;
+      let data = null;
+      if(xhr.status == 200 && xhr.readyState == 4) {
+        data = xhr.responseText;
+      } else {
+        error = xhr.responseText;
+      }
+      fnCallback(error, data);
+    }
+  }
+
   function sendHomeRequest(fnCallback) {
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/content", true);+
+    xhr.open("GET", "/content", true);
     xhr.send();
     xhr.onreadystatechange = function() {
       let error = null;
@@ -63,6 +82,7 @@ const AjaxCalls = (()=>{
       fnCallback(error, data);
     }
   }
+
   function sendProductsRequest(fnCallback) {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "/products", true);
@@ -79,6 +99,7 @@ const AjaxCalls = (()=>{
       fnCallback(error, data);
     }
   }
+
   function sendSearchRequest(product, fnCallback) {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", encodeURI("/search/" + product), true);
@@ -95,6 +116,7 @@ const AjaxCalls = (()=>{
       fnCallback(error, data);
     }
   }
+
   function sendCartRequest(fnCallback) {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "/cart", true);
@@ -111,6 +133,7 @@ const AjaxCalls = (()=>{
       fnCallback(error, data);
     }
   }
+
   function sendAddItemRequest(item, fnCallback) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", encodeURI("/add/" + item), true);
@@ -127,6 +150,7 @@ const AjaxCalls = (()=>{
       fnCallback(error, data);
     }
   }
+
   function sendRemoveItemRequest(item, fnCallback) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", encodeURI("/remove/" + item), true);
@@ -143,15 +167,18 @@ const AjaxCalls = (()=>{
       fnCallback(error, data);
     }
   }
+
   return{
-  postLogin: sendLoginRequest,
-  postLogout: sendLogoutRequest,
-  getHome: sendHomeRequest,
-  postRegister: sendRegisterRequest,
-  getProducts: sendProductsRequest,
-  getSearch: sendSearchRequest,
-  getCart: sendCartRequest,
-  postAddItem: sendAddItemRequest,
-  postRemoveItem: sendRemoveItemRequest
+    postLogin: sendLoginRequest,
+    postLogout: sendLogoutRequest,
+    getUser: sendUserRequest,
+    getHome: sendHomeRequest,
+    postRegister: sendRegisterRequest,
+    getProducts: sendProductsRequest,
+    getSearch: sendSearchRequest,
+    getCart: sendCartRequest,
+    postAddItem: sendAddItemRequest,
+    postRemoveItem: sendRemoveItemRequest
   };
+
 })();
