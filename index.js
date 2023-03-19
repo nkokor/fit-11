@@ -76,9 +76,11 @@ app.get("/user", function(req, res) {
     res.status(403);
     res.send(JSON.stringify(message));
   } else {
-    let user = {"username":req.session.username};
-    res.status(200);
-    res.send(JSON.stringify(user));
+    db.user.findOne({where:{username:req.session.username}}).then(u => {
+      let user = {"username":req.session.username, "profileImage":u.image};
+      res.status(200);
+      res.send(JSON.stringify(user));
+    });
   }
 });
 
@@ -111,7 +113,7 @@ app.post("/signup", function(req, res) {
         res.send(JSON.stringify(message));
       } else {
           bcrypt.hash(req.body.password, 10, function(err, hash) {
-            db.user.create({username:req.body.username, email:req.body.email, password_hash:hash});
+            db.user.create({username:req.body.username, email:req.body.email, password_hash:hash, image:"/user.jpg"});
             res.status(200);
             let message = {"message": "User signed up successfully!"};
             res.send(JSON.stringify(message));

@@ -4,6 +4,28 @@ function clearContent(contentDiv) {
   contentDiv.innerHTML = null;
 }
 
+function addLoginButtons(accountDiv) {
+
+  let login = document.createElement("p");
+  login.innerText = "LOG IN";
+  login.className = "account-button";
+  let signup = document.createElement("p");
+  signup.innerText = "SIGN UP";
+  signup.className = "account-button";
+  signup.id = "signup-button";
+
+  login.addEventListener("click", function() {
+    location.href = "login.html";
+  });
+
+  signup.addEventListener("click", function() {
+    location.href = "signin.html";
+  });
+  
+  accountDiv.appendChild(login);
+  accountDiv.appendChild(signup);
+}
+
 function changeMenuItemColor(menuItem) {
   let menuItems = document.getElementsByClassName("menu-item");
   for(let i = 0; i < menuItems.length; i += 1) {
@@ -318,6 +340,7 @@ function showCatalogue(content, products) {
 }
 
 window.onload = function() {
+
   let head = document.getElementsByTagName("head")[0];
   let script = document.createElement("script");
   script.src = "https://kit.fontawesome.com/10ba21a9a2.js";
@@ -351,7 +374,6 @@ window.onload = function() {
   });
 
   //account info space
-  let menuDiv = document.getElementById("main-menu");
   let accountDiv = document.getElementById("account-div");
 
   ajax.getUser(function(error, data) {
@@ -359,8 +381,7 @@ window.onload = function() {
     if(error == null) {
       let userImage = document.createElement("img");
       userImage.id = "user-image";
-      //image will eventually be changed to actual profile photo
-      userImage.src = "/user.jpg";
+      userImage.src = JSON.parse(data).profileImage;
       let username = document.createElement("p");
       username.id = "username";
       username.innerText = JSON.parse(data).username;
@@ -370,27 +391,9 @@ window.onload = function() {
       accountDiv.appendChild(username);
       accountDiv.appendChild(dropMenu);
     } else {
-        let login = document.createElement("p");
-        login.innerText = "LOG IN";
-        login.className = "account-button";
-        let signup = document.createElement("p");
-        signup.innerText = "SIGN UP";
-        signup.className = "account-button";
-        signup.id = "signup-button";
-
-        login.addEventListener("click", function() {
-          location.href = "login.html";
-        });
-
-        signup.addEventListener("click", function() {
-          location.href = "signin.html";
-        });
-
-        accountDiv.appendChild(login);
-        accountDiv.appendChild(signup);
+        addLoginButtons(accountDiv);
     }
   });
-
   showHome(contentDiv, home);
 }
 

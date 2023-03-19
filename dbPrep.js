@@ -1,6 +1,6 @@
 function addData(db){
   return new Promise(function(resolve, reject) {
-    db.user.create({username:"nkokor", email:"nkokor@icloud.com", password_hash:"$2b$10$oClpeF2urcPqEtSWGJJJAeMbR/HR1zP/T9kPl8eCgmYEEcKHF2awa"});
+    db.user.create({username:"nkokor", email:"nkokor@icloud.com", password_hash:"$2b$10$oClpeF2urcPqEtSWGJJJAeMbR/HR1zP/T9kPl8eCgmYEEcKHF2awa", image:"/user.jpg"});
     db.product.create({title:"Workout band set", price:40, availability:25, image:"/bands.jpg", description:"Set of 3 different level workout bands. Ideal for glute activation and leg day warm up."});
     db.product.create({title:"Pilates ball", price:20, availability:0, image:"/ball.jpg", description: "20 cm mini ball for yoga, pilates, rehab and stretching."});
     db.product.create({title:"Set of dumbbells, 20Lbs", price:112, availability:0, image:"/dumbbells20.jpg"});
