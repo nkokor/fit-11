@@ -168,6 +168,10 @@ function showAbout(contentDiv, menuItem) {
   preparePage(contentDiv, menuItem);
   let aboutContent = document.createElement("div");
   aboutContent.id = "about-div";
+  let image = document.createElement("img");
+  image.className = "gym-image";
+  image.src = "/image1.jpg";
+  aboutContent.appendChild(image);
   let header1 = document.createElement("h2");
   header1.className = "header";
   header1.innerText = "OUR STORY";
@@ -184,8 +188,11 @@ function showAbout(contentDiv, menuItem) {
   aboutContent.appendChild(introduction);
   aboutContent.appendChild(header2);
   aboutContent.appendChild(values);
+  let contactDiv = document.createElement("div");
+  contactDiv.id = "contact-div";
 
   contentDiv.appendChild(aboutContent);
+  contentDiv.appendChild(contactDiv);
 }
 
 function showWorkouts(contentDiv, menuItem) {
