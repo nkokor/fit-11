@@ -166,6 +166,26 @@ function showProducts(contentDiv, menuItem) {
 
 function showAbout(contentDiv, menuItem) {
   preparePage(contentDiv, menuItem);
+  let aboutContent = document.createElement("div");
+  aboutContent.id = "about-div";
+  let header1 = document.createElement("h2");
+  header1.className = "header";
+  header1.innerText = "OUR STORY";
+  let introduction = document.createElement("p");
+  introduction.className = "paragraph";
+  introduction.innerText = "Instead of being just another gym equipment retailer, our founders wanted to be the best in the industry and set their minds to doing so! Over the last two decades Gym and Fitness has grown into one of Australia’s largest online fitness equipment retailers, helping thousands of customers live longer, happier and healthier lives.";
+  let header2 = document.createElement("h2");
+  header2.className = "header";
+  header2.innerText = "OUR VALUES";
+  let values = document.createElement("p");
+  values.className = "paragraph";
+  values.innerText = "For 20 years helping customers reach their fitness goals has been at the heart of what we do and why we do it! We live and breathe our six core values and four brand promises  — which speak of our commitment to our customers, staff, the industry and our business as a whole.";
+  aboutContent.appendChild(header1);
+  aboutContent.appendChild(introduction);
+  aboutContent.appendChild(header2);
+  aboutContent.appendChild(values);
+
+  contentDiv.appendChild(aboutContent);
 }
 
 function showWorkouts(contentDiv, menuItem) {
