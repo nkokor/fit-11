@@ -50,15 +50,25 @@ function showProductDetails(contentDiv, productTitle) {
       let productDiv = document.createElement("div");
       productDiv.id = "item-details-div";
       let image = document.createElement("img");
+      image.id="product-info-image";
       image.src = item.image;
       let title = document.createElement("p");
+      title.id = "product-info-title";
       title.innerText = item.title;
       let info = document.createElement("p");
+      info.id = "product-info-info";
       info.innerText = item.info;
-      let price = document.createElement("p")
-      price.innerText = item.price;
+      let price = document.createElement("p");
+      price.id = "product-info-price";
+      price.innerText = "$" + item.price;
       let addToCart = document.createElement("p");
+      addToCart.id = "product-info-add";
+      addToCart.innerText = "Add to cart";
+      let icon = document.createElement("i");
+      icon.className = "fa fa-shopping-cart";
+      addToCart.appendChild(icon);
       let detailsDiv = document.createElement("div");
+      detailsDiv.id = "details-div";
       detailsDiv.appendChild(title);
       detailsDiv.appendChild(info);
       detailsDiv.appendChild(price);
