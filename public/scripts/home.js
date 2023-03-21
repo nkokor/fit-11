@@ -46,6 +46,17 @@ function showProductDetails(contentDiv, productTitle) {
   contentDiv.innerHTML = '';
   ajax.getProduct(productTitle, function(error, data) {
     if(error == null) {
+      let backLinkDiv = document.createElement("div");
+      backLinkDiv.id = "back-link-div";
+      let backLink = document.createElement("p");
+      backLink.innerText = "Back to shop";
+      backLink.className = "back-button";
+      backLink.addEventListener("click", function() {
+        let menuItem = document.getElementById("products");
+        showProducts(contentDiv, menuItem);
+      });
+      backLinkDiv.appendChild(backLink);
+      contentDiv.appendChild(backLinkDiv);
       let item = JSON.parse(data);
       let productDiv = document.createElement("div");
       productDiv.id = "item-details-div";
@@ -243,7 +254,7 @@ function showCart(contentDiv, items) {
   let headDiv = document.createElement("div");
   headDiv.id = "cart-head-div";
   let backButton = document.createElement("p");
-  backButton.id = "back-button";
+  backButton.className = "back-button";
   backButton.innerText = "Back to shop";
   backButton.addEventListener("click", function() {
     let menuItem = document.getElementById("products");

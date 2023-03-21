@@ -6,7 +6,7 @@ function addData(db){
     db.product.create({title:"Set of dumbbells, 20Lbs", price:112, availability:0, image:"/products/dumbbells20.jpg", description:"Set of 20Lbs rubber coated dumbbells. Great for home or gym workouts."});
     db.product.create({title:"Dumbbells, full set", price:380, availability:3, image:"/products/dumbbellsset.jpg", description:"Comes with 5 pairs of different weight dumbbells. Perfect for a home gym setup. Stand not included. Colors may vary."});
     db.product.create({title:"Foam roller", price:20, availability:13, image:"/products/roller.jpg", description:"Foam massage roller for stretching and recovery. Comes with a net case."});
-    db.product.create({title:"Weight lifting gloves", price:30, availability:25, image:"/products/gloves.jpg", description:"Male weightlifting gloves. One size fits all. Stretchy and breathable."});
+    db.product.create({title:"Weight lifting gloves", price:30, availability:25, image:"/products/gloves.jpg", description:"Male weightlifting gloves with velcro straps. One size fits all. Stretchy and breathable."});
     db.product.create({title:"Ankle weights, 7Lbs", price:15, availability:12, image:"/products/ankle.jpg", description:"7Lbs ankle weights ideal for mat pilates and home workouts. Great addition to cardio workouts. Protective case included. Color may vary."});
     db.product.create({title:"Set of dumbbells, 10Lbs", price:55, availability:18, image:"/products/dumbbells10.jpg", description:"Set of 10Lbs hex dumbbells with crome handle. Perfect for at home of gym workouts. Rubber coated."});
     db.product.create({title:"Olympic barbell", price:60, availability:2, image:"/products/barbell.jpg", description:"Standard 20kg weightlifting barbell with 700-pound weight capacity"});
