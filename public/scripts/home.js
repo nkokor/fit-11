@@ -42,6 +42,34 @@ function preparePage(contentDiv, menuItem) {
   changeMenuItemColor(menuItem);
 }
 
+function showProductDetails(contentDiv, productTitle) {
+  contentDiv.innerHTML = '';
+  ajax.getProduct(productTitle, function(error, data) {
+    if(error == null) {
+      let item = JSON.parse(data);
+      let productDiv = document.createElement("div");
+      productDiv.id = "item-details-div";
+      let image = document.createElement("img");
+      image.src = item.image;
+      let title = document.createElement("p");
+      title.innerText = item.title;
+      let info = document.createElement("p");
+      info.innerText = item.info;
+      let price = document.createElement("p")
+      price.innerText = item.price;
+      let addToCart = document.createElement("p");
+      let detailsDiv = document.createElement("div");
+      detailsDiv.appendChild(title);
+      detailsDiv.appendChild(info);
+      detailsDiv.appendChild(price);
+      detailsDiv.appendChild(addToCart);
+      productDiv.appendChild(image);
+      productDiv.appendChild(detailsDiv);
+      contentDiv.appendChild(productDiv);
+    }
+  });
+}
+
 function showHome(contentDiv, menuItem) {
   preparePage(contentDiv, menuItem);
   let headerDiv = document.createElement("div");
@@ -208,7 +236,8 @@ function showCart(contentDiv, items) {
   backButton.id = "back-button";
   backButton.innerText = "Back to shop";
   backButton.addEventListener("click", function() {
-    showProducts();
+    let menuItem = document.getElementById("products");
+    showProducts(contentDiv, menuItem);
   });
   headDiv.appendChild(backButton);
   let title = document.createElement("p");
@@ -361,6 +390,10 @@ function showCatalogue(content, products) {
     productDiv.appendChild(title);
     productDiv.appendChild(price);
     productDiv.appendChild(addButton);
+    productDiv.addEventListener("click", function() {
+      let contentDiv = document.getElementById("main-div");
+      showProductDetails(contentDiv, title.innerText);
+    });
     content.appendChild(productDiv)
   }
   return content;

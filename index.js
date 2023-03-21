@@ -201,8 +201,6 @@ app.post(/\/remove\/.*/, function(req, res) {
   db.product.findOne({where:{title:item}}).then(product => {
     if(product != null) {
       db.product.update({availability:product.availability+1}, {where:{title:product.title}}).then(p => {
-        let newCart = [];
-        let removed = false;
         for(let i = 0; i < req.session.cart.length; i++) {
           if(req.session.cart[i].title == item) {
             req.session.cart.splice(i, 1);
@@ -216,6 +214,21 @@ app.post(/\/remove\/.*/, function(req, res) {
       let message = {"message":"Item not found!"};
       res.status(404);
       res.send(JSON.stringify(message));
+    }
+  });
+});
+
+app.get(/\/product\/.*/, function(req, res) {
+  res.setHeader('Content-type', 'application/json');
+  let productTitle = decodeURI(req.url).replace('/product/', '');
+  db.product.findOne({where:{title:productTitle}}).then(product => {
+    if(product != null) {
+      let productObject = {"title":productTitle, "info":product.description, "image":product.image, "price":product.price};
+      res.status(200);
+      res.send(JSON.stringify(productObject));
+    } else {
+      res.status(403);
+      res.send(JSON.stringify({"error":"Product not found"}));
     }
   });
 });
