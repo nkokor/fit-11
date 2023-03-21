@@ -6,7 +6,8 @@ module.exports = function (sequelize, DataTypes) {
    price: Sequelize.DOUBLE,
    availability: Sequelize.INTEGER,
    image: Sequelize.STRING,
-   description: Sequelize.TEXT
+   description: Sequelize.TEXT,
+   rating: Sequelize.FLOAT
   }, {tableName: 'product'});
   return Product;
 }

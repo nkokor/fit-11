@@ -42,6 +42,28 @@ function preparePage(contentDiv, menuItem) {
   changeMenuItemColor(menuItem);
 }
 
+function addRating(div, product) {
+  let starsDiv = document.createElement("div");
+  starsDiv.className = "stars-div";
+  let star1 = document.createElement("p");
+  star1.className = "fa fa-star";
+  let star2 = document.createElement("p");
+  star2.className = "fa fa-star";
+  let star3 = document.createElement("p");
+  star3.className = "fa fa-star";
+  let star4 = document.createElement("p");
+  star4.className = "fa fa-star";
+  let star5 = document.createElement("p");
+  star5.className = "fa fa-star";
+
+  starsDiv.appendChild(star1);
+  starsDiv.appendChild(star2);
+  starsDiv.appendChild(star3);
+  starsDiv.appendChild(star4);
+  starsDiv.appendChild(star5);
+  div.appendChild(starsDiv);
+}
+
 function showProductDetails(contentDiv, productTitle) {
   contentDiv.innerHTML = '';
   ajax.getProduct(productTitle, function(error, data) {
@@ -72,18 +94,38 @@ function showProductDetails(contentDiv, productTitle) {
       let price = document.createElement("p");
       price.id = "product-info-price";
       price.innerText = "$" + item.price;
-      let addToCart = document.createElement("p");
-      addToCart.id = "product-info-add";
-      addToCart.innerText = "Add to cart";
-      let icon = document.createElement("i");
-      icon.className = "fa fa-shopping-cart";
-      addToCart.appendChild(icon);
+
       let detailsDiv = document.createElement("div");
       detailsDiv.id = "details-div";
+  
+      let addButton = document.createElement("p");
+      if(item.availability > 0) {
+        addButton.innerText = "Add to cart";
+        addButton.className = "add-button";
+        let icon = document.createElement("i");
+        icon.className = "fa fa-shopping-cart";
+        addButton.appendChild(icon);
+        addButton.addEventListener("click", function() {
+          ajax.postAddItem(title.innerText, function(error, data) {
+            if(error == null) {
+              console.log(" nema error")
+            } else {
+              console.log(" error")
+            }
+          });
+        });
+      } else {
+        addButton.innerText = "Out of stock";
+        addButton.className = "out-of-stock-button";
+      }
+
       detailsDiv.appendChild(title);
       detailsDiv.appendChild(info);
       detailsDiv.appendChild(price);
-      detailsDiv.appendChild(addToCart);
+          
+      addRating(detailsDiv, item);
+
+      detailsDiv.appendChild(addButton);
       productDiv.appendChild(image);
       productDiv.appendChild(detailsDiv);
       contentDiv.appendChild(productDiv);
@@ -387,30 +429,10 @@ function showCatalogue(content, products) {
     let price = document.createElement("p");
     price.className = "product-price";
     price.innerText = products[i].price + '$';
-    let addButton = document.createElement("p");
-    if(products[i].availability > 0) {
-      addButton.innerText = "Add to cart";
-      addButton.className = "add-button";
-      let icon = document.createElement("i");
-      icon.className = "fa fa-shopping-cart";
-      addButton.appendChild(icon);
-      addButton.addEventListener("click", function() {
-        ajax.postAddItem(title.innerText, function(error, data) {
-          if(error == null) {
-            console.log(" nema error")
-          } else {
-            console.log(" error")
-          }
-        });
-      });
-    } else {
-      addButton.innerText = "Out of stock";
-      addButton.className = "out-of-stock-button";
-    }
     productDiv.appendChild(image);
     productDiv.appendChild(title);
     productDiv.appendChild(price);
-    productDiv.appendChild(addButton);
+    addRating(productDiv, products[i]);
     productDiv.addEventListener("click", function() {
       let contentDiv = document.getElementById("main-div");
       showProductDetails(contentDiv, title.innerText);

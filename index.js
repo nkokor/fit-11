@@ -128,7 +128,7 @@ app.get("/products", function(req, res) {
   db.product.findAll().then(products => {
     let productObjects = [];
     for(let i = 0; i < products.length; i++) {
-      productObjects.push({title:products[i].title, price:products[i].price, image:products[i].image, availability:products[i].availability});
+      productObjects.push({title:products[i].title, price:products[i].price, image:products[i].image, availability:products[i].availability, rating:products[i].rating});
     }
     res.status(200);
     res.send(JSON.stringify(productObjects));
@@ -223,7 +223,7 @@ app.get(/\/product\/.*/, function(req, res) {
   let productTitle = decodeURI(req.url).replace('/product/', '');
   db.product.findOne({where:{title:productTitle}}).then(product => {
     if(product != null) {
-      let productObject = {"title":productTitle, "info":product.description, "image":product.image, "price":product.price};
+      let productObject = {"title":productTitle, "info":product.description, "image":product.image, "price":product.price, "availability":product.availability, "rating":product.rating};
       res.status(200);
       res.send(JSON.stringify(productObject));
     } else {

@@ -32,6 +32,19 @@
   font-weight: bold;
 }
 
+.fa-star {
+  border:none;
+  background-color: unset;
+  color:rgb(175, 175, 174);
+  font-size: 4rem;
+  padding: 1px;
+}
+
+#details-div .fa-star {
+  font-size: 18px;
+  padding: 2px;
+}
+
 #product-info-add {
   margin: auto;
   cursor: pointer;
