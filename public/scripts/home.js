@@ -55,7 +55,6 @@ function addRating(div, product) {
   star4.className = "fa fa-star";
   let star5 = document.createElement("p");
   star5.className = "fa fa-star";
-
   starsDiv.appendChild(star1);
   starsDiv.appendChild(star2);
   starsDiv.appendChild(star3);
@@ -65,7 +64,8 @@ function addRating(div, product) {
 }
 
 function showProductDetails(contentDiv, productTitle) {
-  contentDiv.innerHTML = '';
+  let menuItem = document.getElementById("products");
+  preparePage(contentDiv, menuItem);
   ajax.getProduct(productTitle, function(error, data) {
     if(error == null) {
       let backLinkDiv = document.createElement("div");
@@ -508,8 +508,10 @@ mainDiv.addEventListener('click', function(event) {
       product = product.value;
       if(product != null) {
         ajax.getSearch(product, function(error, data) {
+          let productsDiv = document.getElementById("products-div");
+          let content = document.getElementById("")
           if(error == null) {
-            content.appendChild(showCatalogue(productsDiv, JSON.parse(data)));
+            mainDiv.appendChild(showCatalogue(productsDiv, JSON.parse(data)));
           } else {
             productsDiv.innerHTML = '';
             let noResults = document.createElement('p');
