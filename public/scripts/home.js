@@ -75,7 +75,7 @@ function showProductDetails(contentDiv, productTitle) {
       backLink.className = "back-button";
       backLink.addEventListener("click", function() {
         let menuItem = document.getElementById("products");
-        showProducts(contentDiv, menuItem);
+        showProducts(contentDiv, menuItem, null);
       });
       backLinkDiv.appendChild(backLink);
       contentDiv.appendChild(backLinkDiv);
@@ -240,7 +240,7 @@ function showProducts(contentDiv, menuItem) {
     topDiv.appendChild(cartButton);
     ajax.getProducts(function(error, data) {
       if(error == null) {
-        showCatalogue(productsDiv, JSON.parse(data));
+        showCatalogue(productsDiv, JSON.parse(data), null);
         contentDiv.appendChild(productsDiv);
       } else {
         let warning = document.createElement('p');
@@ -300,7 +300,7 @@ function showCart(contentDiv, items) {
   backButton.innerText = "Back to shop";
   backButton.addEventListener("click", function() {
     let menuItem = document.getElementById("products");
-    showProducts(contentDiv, menuItem);
+    showProducts(contentDiv, menuItem, null);
   });
   headDiv.appendChild(backButton);
   let title = document.createElement("p");
@@ -415,8 +415,19 @@ function showCart(contentDiv, items) {
   }
 }
 
-function showCatalogue(content, products) {
+function showCatalogue(content, products, label) {
   content.innerHTML = '';
+  if(label != null) {
+    let resultsFoundDiv = document.createElement("div");
+    resultsFoundDiv.id = "results-found-div";
+    let resultsLabel = document.createElement("p");
+    resultsLabel.innerText = "Showing results for \"" + label + "\"";
+    resultsLabel.id = "results-label";
+    resultsFoundDiv.appendChild(resultsLabel);
+    content.appendChild(resultsFoundDiv);
+  }
+  let productsDiv = document.createElement("div");
+  productsDiv.id = "catalogue";
   for(let i = 0; i < products.length; i++) {
     let productDiv = document.createElement("div");
     productDiv.className = "product-div";
@@ -437,8 +448,9 @@ function showCatalogue(content, products) {
       let contentDiv = document.getElementById("main-div");
       showProductDetails(contentDiv, title.innerText);
     });
-    content.appendChild(productDiv)
+    productsDiv.appendChild(productDiv)
   }
+  content.appendChild(productsDiv);
   return content;
 }
 
@@ -509,14 +521,13 @@ mainDiv.addEventListener('click', function(event) {
       if(product != null) {
         ajax.getSearch(product, function(error, data) {
           let productsDiv = document.getElementById("products-div");
-          let content = document.getElementById("")
           if(error == null) {
-            mainDiv.appendChild(showCatalogue(productsDiv, JSON.parse(data)));
+            mainDiv.appendChild(showCatalogue(productsDiv, JSON.parse(data), product));
           } else {
             productsDiv.innerHTML = '';
             let noResults = document.createElement('p');
             noResults.innerText = "No results found.";
-            noResults.id = "no-results"
+            noResults.id = "results-label";
             productsDiv.appendChild(noResults);
           }
       });
