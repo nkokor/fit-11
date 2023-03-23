@@ -360,7 +360,7 @@ function showCart(contentDiv, items) {
       minusButton.innerText = "-";
       minusButton.className = "quantity-button";
       let itemQuantity = document.createElement("p");
-      itemQuantity.innerText = "1";
+      itemQuantity.innerText = items[i].quantity;
       itemQuantity.className = "item-quantity";
       let plusButton = document.createElement("p");
       plusButton.innerText = "+";

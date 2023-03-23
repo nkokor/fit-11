@@ -187,7 +187,18 @@ app.post(/\/add\/.*/, function(req, res) {
         let newAvailability = product.availability - 1;
         db.product.update({availability:newAvailability}, {where:{title:item}}).then(p => {
           res.status(200);
-          req.session.cart.push({title:item, price:product.price, image:product.image});
+          let itemIsInCart = false;
+          for(let i = 0; i < req.session.cart.length; i++) {
+            if(req.session.cart[i].title == item) {
+              req.session.cart[i].quantity += 1;
+              itemIsInCart = true;
+              break;
+            }
+          }
+          console.log(itemIsInCart)
+          if(itemIsInCart == false) {
+            req.session.cart.push({title:item, price:product.price, image:product.image, quantity:1});
+          }   
           res.send(JSON.stringify(req.session.cart));
         });
       }
@@ -203,7 +214,11 @@ app.post(/\/remove\/.*/, function(req, res) {
       db.product.update({availability:product.availability+1}, {where:{title:product.title}}).then(p => {
         for(let i = 0; i < req.session.cart.length; i++) {
           if(req.session.cart[i].title == item) {
-            req.session.cart.splice(i, 1);
+            if(req.session.cart[i].quantity == 1) {
+              req.session.cart.splice(i, 1);
+            } else {
+              req.session.cart[i].quantity -= 1;
+            }
             break;
           }
         }
