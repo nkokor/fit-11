@@ -214,11 +214,7 @@ app.post(/\/remove\/.*/, function(req, res) {
       db.product.update({availability:product.availability+1}, {where:{title:product.title}}).then(p => {
         for(let i = 0; i < req.session.cart.length; i++) {
           if(req.session.cart[i].title == item) {
-            if(req.session.cart[i].quantity == 1) {
-              req.session.cart.splice(i, 1);
-            } else {
-              req.session.cart[i].quantity -= 1;
-            }
+            req.session.cart.splice(i, 1);
             break;
           }
         }
