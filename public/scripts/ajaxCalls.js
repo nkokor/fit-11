@@ -196,6 +196,7 @@ const AjaxCalls = (()=>{
       } else {
         error = xhr.responseText;
       }
+      fnCallback(error, data);
     }
   }
 
@@ -211,6 +212,7 @@ const AjaxCalls = (()=>{
       } else {
         error = xhr.responseText;
       }
+      fnCallback(error, data);
     }
   }
 

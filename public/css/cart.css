@@ -47,11 +47,13 @@
 }
 
 .quantity-button {
-  border: 2px;
-  border-color: black;
   border-radius: 50px;
   cursor: pointer;
   font-size: x-large;
+}
+
+.quantity-button-off {
+  color: rgb(105, 105, 105);
 }
 
 .item-div {

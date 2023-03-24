@@ -195,9 +195,8 @@ app.post(/\/add\/.*/, function(req, res) {
               break;
             }
           }
-          console.log(itemIsInCart)
           if(itemIsInCart == false) {
-            req.session.cart.push({title:item, price:product.price, image:product.image, quantity:1});
+            req.session.cart.push({title:item, price:product.price, image:product.image, quantity:1, availability:newAvailability});
           }   
           res.send(JSON.stringify(req.session.cart));
         });
@@ -255,6 +254,7 @@ app.post(/\/plus\/.*/, function(req, res) {
           for(let i = 0; i < req.session.cart.length; i++) {
             if(req.session.cart[i].title == item) {
               req.session.cart[i].quantity += 1;
+              req.session.cart[i].availability = newAvailability;
               break;
             }
           }
@@ -290,8 +290,16 @@ app.post(/\/minus\/.*/, function(req, res) {
       } else {
         let newAvailability = product.availability + 1;
         db.product.update({availability:newAvailability}, {where:{title:item}}).then(p => {
-          res.status(200);
-          res.send(JSON.stringify(req.session.cart));
+          if(p != null) {
+            for(let i = 0; i < req.session.cart.length; i++) {
+              if(req.session.cart[i].title == p.title) {
+                req.session.cart[i].availability = newAvailability;
+                break;
+              }
+            }
+            res.status(200);
+            res.send(JSON.stringify(req.session.cart));
+          }
         });
       }
     }
