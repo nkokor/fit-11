@@ -356,9 +356,23 @@ function showCart(contentDiv, items) {
 
       let quantityDiv = document.createElement("div");
       quantityDiv.className = "quantity-div";
+
       let minusButton = document.createElement("p");
       minusButton.innerText = "-";
-      minusButton.className = "quantity-button";
+    
+      if(items[i].quantity > 1) {
+        minusButton.className = "quantity-button";
+        minusButton.addEventListener("click", function() {
+          ajax.postMinus(itemTitle.innerText, function(error, data) {
+            if(error == null) {
+              showCart(contentDiv, JSON.parse(data));
+            }
+          });
+        });
+      } else {
+        minusButton.className = "quantity-button-off";
+      }
+
       let itemQuantity = document.createElement("p");
       itemQuantity.innerText = items[i].quantity;
       itemQuantity.className = "item-quantity";

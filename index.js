@@ -275,7 +275,7 @@ app.post(/\/minus\/.*/, function(req, res) {
   db.product.findOne({where:{title:item}}).then(product => {
     if(product != null) {
       let decreased = false;
-      for(let i = 0; i < res.session.cart.length; i++) {
+      for(let i = 0; i < req.session.cart.length; i++) {
         if(req.session.cart[i].title == item) {
           if(req.session.cart[i].quantity > 1) {
             req.session.cart[i].quantity -= 1;
