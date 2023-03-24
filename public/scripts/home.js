@@ -177,6 +177,51 @@ function addItemQuantity(quantityDiv, item) {
   quantityDiv.appendChild(plusButton);
 }
 
+function showCartItem(itemsDiv, item) {
+  let itemDiv = document.createElement("div");
+  itemDiv.className = "item-div";
+
+  let itemLink = document.createElement("div");
+  itemLink.className = "item-link";
+  let itemImage = document.createElement("img");
+  itemImage.className = "item-image";
+  itemImage.src = item.image;
+  let itemTitle = document.createElement("p");
+  itemTitle.className = "item-title";
+  itemTitle.innerText = item.title;
+  itemLink.appendChild(itemImage);
+  itemLink.appendChild(itemTitle);
+
+  let itemPrice = document.createElement("p");
+  itemPrice.className = "item-price";
+  itemPrice.innerText = "$" + item.price;
+
+  let quantityDiv = document.createElement("div");
+  quantityDiv.className = "quantity-div";
+
+  addItemQuantity(quantityDiv, item);
+
+  let totalPrice = document.createElement("p");
+  totalPrice.innerText = "$" + item.price * item.quantity;
+  totalPrice.className = "total-price";
+  itemDiv.appendChild(itemLink);
+  itemDiv.appendChild(itemPrice);
+  itemDiv.appendChild(quantityDiv);
+  itemDiv.appendChild(totalPrice);
+  let removeButton = document.createElement("p");
+  removeButton.className = "remove-item";
+  removeButton.innerText = "Remove from cart";
+  removeButton.addEventListener("click", function() {
+    ajax.postRemoveItem(itemTitle.innerText, function(error, data) {
+      if(error == null) {
+        showCart(contentDiv, JSON.parse(data));
+      }
+    });
+  });
+  itemDiv.appendChild(removeButton);
+  itemsDiv.appendChild(itemDiv);
+}
+
 function showHome(contentDiv, menuItem) {
   preparePage(contentDiv, menuItem);
   let headerDiv = document.createElement("div");
@@ -380,49 +425,7 @@ function showCart(contentDiv, items) {
     labelDiv.appendChild(totalHead);
     itemsDiv.appendChild(labelDiv);
     for(let i = 0; i < items.length; i++) {
-      let itemDiv = document.createElement("div");
-      itemDiv.className = "item-div";
-
-      let itemLink = document.createElement("div");
-      itemLink.className = "item-link";
-      let itemImage = document.createElement("img");
-      itemImage.className = "item-image";
-      itemImage.src = items[i].image;
-      let itemTitle = document.createElement("p");
-      itemTitle.className = "item-title";
-      itemTitle.innerText = items[i].title;
-      itemLink.appendChild(itemImage);
-      itemLink.appendChild(itemTitle);
-
-      let itemPrice = document.createElement("p");
-      itemPrice.className = "item-price";
-      itemPrice.innerText = "$" + items[i].price;
-
-      let quantityDiv = document.createElement("div");
-      quantityDiv.className = "quantity-div";
-
-      addItemQuantity(quantityDiv, items[i]);
-
-      let totalPrice = document.createElement("p");
-      totalPrice.innerText = "$" + items[i].price * items[i].quantity;
-      totalPrice.className = "total-price";
-      totalCost += items[i].price;
-      itemDiv.appendChild(itemLink);
-      itemDiv.appendChild(itemPrice);
-      itemDiv.appendChild(quantityDiv);
-      itemDiv.appendChild(totalPrice);
-      let removeButton = document.createElement("p");
-      removeButton.className = "remove-item";
-      removeButton.innerText = "Remove from cart";
-      removeButton.addEventListener("click", function() {
-        ajax.postRemoveItem(itemTitle.innerText, function(error, data) {
-          if(error == null) {
-            showCart(contentDiv, JSON.parse(data));
-          }
-        });
-      });
-      itemDiv.appendChild(removeButton);
-      itemsDiv.appendChild(itemDiv);
+      showCartItem(itemsDiv, items[i]);
     }
     let totalCostDiv = document.createElement("div");
     totalCostDiv.id = "total-cost-div";
