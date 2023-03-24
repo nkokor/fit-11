@@ -184,6 +184,36 @@ const AjaxCalls = (()=>{
     }
   }
 
+  function sendPlusRequest(productTitle, fnCallback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", encodeURI("/plus/" + productTitle), true);
+    xhr.send();
+    xhr.onreadystatechange = function() {
+      let error = null;
+      let data = null;
+      if(xhr.status == 200 || xhr.readyState == 4) {
+        data = xhr.responseText;
+      } else {
+        error = xhr.responseText;
+      }
+    }
+  }
+
+  function sendMinusRequest(productTitle, fnCallback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", encodeURI("/minus/" + productTitle), true);
+    xhr.send();
+    xhr.onreadystatechange = function() {
+      let error = null;
+      let data = null;
+      if(xhr.status == 200 || xhr.readyState == 4) {
+        data = xhr.responseText;
+      } else {
+        error = xhr.responseText;
+      }
+    }
+  }
+
   return{
     postLogin: sendLoginRequest,
     postLogout: sendLogoutRequest,
@@ -195,7 +225,9 @@ const AjaxCalls = (()=>{
     getCart: sendCartRequest,
     postAddItem: sendAddItemRequest,
     postRemoveItem: sendRemoveItemRequest,
-    getProduct: sendProductRequest
+    getProduct: sendProductRequest,
+    postPlus: sendPlusRequest,
+    postMinus: sendMinusRequest
   };
 
 })();

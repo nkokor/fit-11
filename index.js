@@ -244,4 +244,58 @@ app.get(/\/product\/.*/, function(req, res) {
   });
 });
 
+app.post(/\/plus\/.*/, function(req, res) {
+  res.setHeader('Content-type', 'application/json');
+  let item = decodeURI(req.url).replace("/plus/", '');
+  db.product.findOne({where:{title:item}}).then(product => {
+    if(product != null) {
+      if(product.availability > 0) {
+        let newAvailability = product.availability - 1;
+        db.product.update({availability:newAvailability}, {where:{title:item}}).then(p => {
+          for(let i = 0; i < req.session.cart.length; i++) {
+            if(req.session.cart[i].title == item) {
+              req.session.cart[i].quantity += 1;
+              break;
+            }
+          }
+          res.status(200);
+          res.send(JSON.stringify(req.session.cart));
+        });
+      } else {
+        res.status(404);
+        res.send(JSON.stringify({"error": "Product is out of stock!"}));
+      }
+    }
+  });
+});
+
+app.post(/\/minus\/.*/, function(req, res) {
+  let item = decodeURI(req.url).replace("/minus/", '');
+  res.setHeader('Content-type', 'application/json');
+  db.product.findOne({where:{title:item}}).then(product => {
+    if(product != null) {
+      let decreased = false;
+      for(let i = 0; i < res.session.cart.length; i++) {
+        if(req.session.cart[i].title == item) {
+          if(req.session.cart[i].quantity > 1) {
+            req.session.cart[i].quantity -= 1;
+            decreased = true;
+          } 
+          break;
+        }
+      }
+      if(decreased == false) {
+        res.status(404);
+        res.send(JSON.stringify({"error":"Quantity cannot be decreased!"}));
+      } else {
+        let newAvailability = product.availability + 1;
+        db.product.update({availability:newAvailability}, {where:{title:item}}).then(p => {
+          res.status(200);
+          res.send(JSON.stringify(req.session.cart));
+        });
+      }
+    }
+  });
+});
+
 app.listen(3000);
