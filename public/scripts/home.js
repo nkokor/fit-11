@@ -362,15 +362,28 @@ function showCart(contentDiv, items) {
       let itemQuantity = document.createElement("p");
       itemQuantity.innerText = items[i].quantity;
       itemQuantity.className = "item-quantity";
+
       let plusButton = document.createElement("p");
       plusButton.innerText = "+";
-      plusButton.className = "quantity-button";
+      if(items[i].availability > 0) {
+        plusButton.className = "quantity-button";
+        plusButton.addEventListener("click", function() {
+          ajax.postPlus(itemTitle.innerText, function(error, data) {
+            if(error == null) {
+              showCart(contentDiv, JSON.parse(data));
+            }
+          });
+        });
+      } else {
+        plusButton.className = "quantity-button-off";
+      }
+     
       quantityDiv.appendChild(minusButton);
       quantityDiv.appendChild(itemQuantity);
       quantityDiv.appendChild(plusButton);
 
       let totalPrice = document.createElement("p");
-      totalPrice.innerText = "$" + items[i].price;
+      totalPrice.innerText = "$" + items[i].price * items[i].quantity;
       totalPrice.className = "total-price";
       totalCost += items[i].price;
       itemDiv.appendChild(itemLink);
