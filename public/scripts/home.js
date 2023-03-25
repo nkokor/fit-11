@@ -177,7 +177,39 @@ function addItemQuantity(quantityDiv, item) {
   quantityDiv.appendChild(plusButton);
 }
 
-function showCartItem(itemsDiv, item) {
+function calculateTotal(items) {
+  let total = 0.0;
+  let prices = document.getElementsByClassName("item-price");
+  for(let i = 0; i < items.length; i++) {
+    total += items[i].price * items[i].quantity;
+  }
+  return total;
+}
+
+function addCartHeader(itemsDiv) {
+  let labelDiv = document.createElement("div");
+  labelDiv.id = "label-div";
+  let titleHead = document.createElement("p");
+  titleHead.id = "title-head";
+  titleHead.innerText = "Item";
+  let priceHead = document.createElement("p");
+  priceHead.id = "price-head";
+  priceHead.innerText = "Price";
+  let quantityHead = document.createElement("p");
+  quantityHead.id = "quantity-head";
+  quantityHead.innerText = "Quantity";
+  let totalHead = document.createElement("p");
+  totalHead.id = "total-head";
+  totalHead.innerText = "Total";
+  labelDiv.appendChild(titleHead);
+  labelDiv.appendChild(priceHead);
+  labelDiv.appendChild(quantityHead);
+  labelDiv.appendChild(totalHead);
+  itemsDiv.appendChild(labelDiv);
+}
+
+function addCartItem(itemsDiv, item) {
+
   let itemDiv = document.createElement("div");
   itemDiv.className = "item-div";
 
@@ -220,6 +252,31 @@ function showCartItem(itemsDiv, item) {
   });
   itemDiv.appendChild(removeButton);
   itemsDiv.appendChild(itemDiv);
+}
+
+function addTotal(itemsDiv, items) {
+  let totalCostDiv = document.createElement("div");
+  totalCostDiv.id = "total-cost-div";
+  let empty = document.createElement("div");
+  totalCostDiv.appendChild(empty);
+  let totalCostLabel = document.createElement("p");
+  totalCostLabel.id = "total-label";
+  totalCostLabel.innerText = "Total: ";
+  let totalCostNumber = document.createElement("p");
+  let totalCost = calculateTotal(items);
+  totalCostNumber.innerText = "$" + totalCost;
+  totalCostDiv.appendChild(totalCostLabel);
+  totalCostDiv.appendChild(totalCostNumber);
+  itemsDiv.appendChild(totalCostDiv);
+  let checkout = document.createElement("div");
+  checkout.id = "checkout-div";
+  let emptySpace = document.createElement("div");
+  checkout.appendChild(emptySpace);
+  let checkoutButton = document.createElement("p");
+  checkoutButton.innerText = "CHECKOUT";
+  checkoutButton.id = "checkout-button";
+  checkout.appendChild(checkoutButton);
+  itemsDiv.appendChild(checkout);
 }
 
 function showHome(contentDiv, menuItem) {
@@ -380,74 +437,44 @@ function showWorkouts(contentDiv, menuItem) {
 }
 
 function showCart(contentDiv, items) {
+
   contentDiv.innerHTML = '';
-  let totalCost = 0;
+
   let headDiv = document.createElement("div");
   headDiv.id = "cart-head-div";
   let backButton = document.createElement("p");
   backButton.className = "back-button";
   backButton.innerText = "Back to shop";
+
   backButton.addEventListener("click", function() {
     let menuItem = document.getElementById("products");
     showProducts(contentDiv, menuItem, null);
   });
+
   headDiv.appendChild(backButton);
   let title = document.createElement("p");
   title.id = "items-number";
   title.innerText = "Your cart (" + items.length + " items)";
   headDiv.appendChild(title);
   contentDiv.appendChild(headDiv);
+
   if(items == null || items.length == 0) {
     let emptyCart = document.createElement("p");
     emptyCart.innerText = "Your cart is empty.";
     emptyCart.className = "empty-cart";
     contentDiv.appendChild(emptyCart);
   } else {
-    let labelDiv = document.createElement("div");
-    labelDiv.id = "label-div";
     let itemsDiv = document.createElement("div");
     itemsDiv.className = "items-div";
-    let titleHead = document.createElement("p");
-    titleHead.id = "title-head";
-    titleHead.innerText = "Item";
-    let priceHead = document.createElement("p");
-    priceHead.id = "price-head";
-    priceHead.innerText = "Price";
-    let quantityHead = document.createElement("p");
-    quantityHead.id = "quantity-head";
-    quantityHead.innerText = "Quantity";
-    let totalHead = document.createElement("p");
-    totalHead.id = "total-head";
-    totalHead.innerText = "Total";
-    labelDiv.appendChild(titleHead);
-    labelDiv.appendChild(priceHead);
-    labelDiv.appendChild(quantityHead);
-    labelDiv.appendChild(totalHead);
-    itemsDiv.appendChild(labelDiv);
+
+    showCartHeader(itemsDiv);
+
     for(let i = 0; i < items.length; i++) {
-      showCartItem(itemsDiv, items[i]);
+      addCartItem(itemsDiv, items[i]);
     }
-    let totalCostDiv = document.createElement("div");
-    totalCostDiv.id = "total-cost-div";
-    let empty = document.createElement("div");
-    totalCostDiv.appendChild(empty);
-    let totalCostLabel = document.createElement("p");
-    totalCostLabel.id = "total-label";
-    totalCostLabel.innerText = "Total: ";
-    let totalCostNumber = document.createElement("p");
-    totalCostNumber.innerText = "$" + totalCost;
-    totalCostDiv.appendChild(totalCostLabel);
-    totalCostDiv.appendChild(totalCostNumber);
-    itemsDiv.appendChild(totalCostDiv);
-    let checkout = document.createElement("div");
-    checkout.id = "checkout-div";
-    let emptySpace = document.createElement("div");
-    checkout.appendChild(emptySpace);
-    let checkoutButton = document.createElement("p");
-    checkoutButton.innerText = "CHECKOUT";
-    checkoutButton.id = "checkout-button";
-    checkout.appendChild(checkoutButton);
-    itemsDiv.appendChild(checkout);
+
+    addTotal(itemsDiv, items);
+
     contentDiv.appendChild(itemsDiv);
   }
 }
@@ -548,7 +575,6 @@ window.onload = function() {
   });
   showHome(contentDiv, home);
 }
-
 
 let mainDiv = document.getElementById("main-div")
 mainDiv.addEventListener('click', function(event) {
