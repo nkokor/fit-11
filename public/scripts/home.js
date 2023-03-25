@@ -246,6 +246,7 @@ function addCartItem(itemsDiv, item) {
   removeButton.addEventListener("click", function() {
     ajax.postRemoveItem(itemTitle.innerText, function(error, data) {
       if(error == null) {
+        let contentDiv = document.getElementById("main-div");
         showCart(contentDiv, JSON.parse(data));
       }
     });
@@ -467,7 +468,7 @@ function showCart(contentDiv, items) {
     let itemsDiv = document.createElement("div");
     itemsDiv.className = "items-div";
 
-    showCartHeader(itemsDiv);
+    addCartHeader(itemsDiv);
 
     for(let i = 0; i < items.length; i++) {
       addCartItem(itemsDiv, items[i]);
