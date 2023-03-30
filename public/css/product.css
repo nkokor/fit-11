@@ -38,6 +38,7 @@
   color:rgb(175, 175, 174);
   font-size: 4rem;
   padding: 1px;
+  cursor: pointer;
 }
 
 #details-div .fa-star {

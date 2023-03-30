@@ -216,6 +216,24 @@ const AjaxCalls = (()=>{
     }
   }
 
+  function sendRatingRequest(rating, itemTitle, fnCallback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", encodeURI("/rate/" + itemTitle), true);
+    let rating = {"rating": rating};
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.send(JSON.stringify(rating));
+    xhr.onreadystatechange = function() {
+      let error = null;
+      let data = null;
+      if(xhr.status == 200 || xhr.readyState == 4) {
+        data = xhr.responseText;
+      } else {
+        error = xhr.responseText;
+      }
+      fnCallback(error, data);
+    }
+  }
+
   return{
     postLogin: sendLoginRequest,
     postLogout: sendLogoutRequest,
@@ -229,7 +247,8 @@ const AjaxCalls = (()=>{
     postRemoveItem: sendRemoveItemRequest,
     getProduct: sendProductRequest,
     postPlus: sendPlusRequest,
-    postMinus: sendMinusRequest
+    postMinus: sendMinusRequest,
+    postRating: sendRatingRequest
   };
 
 })();

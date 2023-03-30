@@ -599,3 +599,25 @@ mainDiv.addEventListener('click', function(event) {
   }
 });
 
+mainDiv.addEventListener('click', function(event) {
+  if(event.target.className == "fa fa-star") {
+    let ratingNumber = event.target.id;
+    ratingNumber = ratingNumber.replace('star', '');
+    let starsDiv = event.target.parentElement;
+    let productDiv = starsDiv.parentElement;
+    let children = productDiv.childNodes;
+    let itemTitle = '';
+    for(let i = 0; i < children.length; i++) {
+      if(children[i].className == 'product-title') {
+        itemTitle = children[i].innerText;
+      }
+    }
+    console.log(itemTitle)
+    ajax.postRating(ratingNumber, itemTitle, function(error, data) {
+      if(error == null) {
+        showProductDetails(contentDiv, itemTitle);
+      }
+    });*/
+  }
+});
+
