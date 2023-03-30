@@ -306,4 +306,27 @@ app.post(/\/minus\/.*/, function(req, res) {
   });
 });
 
+app.post(/\/rate\/.*/, function(req, res) {
+  let itemTitle = decodeURI(req.body).replace('/rate/', '');
+  res.setHeader('Content-type', 'application/json');
+  db.product.findOne({where:{title:itemTitle}}).then(product => {
+    if(product != null) {
+      let newNumberOfRatings = product.ratings_number + 1;
+      let oldRating =  product.ratings_number * product.rating;
+      let newRating = (oldRating + req.body.rating) / (product.ratings_number + 1);
+      db.product.update({rating: newRating, ratings_number: newNumberOfRatings}, {where: {title: itemTitle}}).then(p => {
+        if(p != null) {
+          res.status(200);
+          console.log(p.rating + ' ' + p.ratings_number);
+          res.send(JSON.stringify({"message": "Rating successful!"}));
+        } else {
+          res.status(404);
+          console.log('NOT FPZND')
+          res.send(JSON.stringify({"error": "Rating unsuccessful!"}));
+        }
+      });
+    }
+  });
+});
+
 app.listen(3000);

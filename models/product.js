@@ -7,7 +7,8 @@ module.exports = function (sequelize, DataTypes) {
    availability: Sequelize.INTEGER,
    image: Sequelize.STRING,
    description: Sequelize.TEXT,
-   rating: Sequelize.FLOAT
+   rating: Sequelize.FLOAT,
+   ratings_number: Sequelize.INTEGER
   }, {tableName: 'product'});
   return Product;
 }

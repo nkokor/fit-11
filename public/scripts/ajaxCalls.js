@@ -219,9 +219,9 @@ const AjaxCalls = (()=>{
   function sendRatingRequest(rating, itemTitle, fnCallback) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", encodeURI("/rate/" + itemTitle), true);
-    let rating = {"rating": rating};
+    let ratingObject = {"rating": rating};
     xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.send(JSON.stringify(rating));
+    xhr.send(JSON.stringify(ratingObject));
     xhr.onreadystatechange = function() {
       let error = null;
       let data = null;

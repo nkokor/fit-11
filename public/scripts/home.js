@@ -608,16 +608,15 @@ mainDiv.addEventListener('click', function(event) {
     let children = productDiv.childNodes;
     let itemTitle = '';
     for(let i = 0; i < children.length; i++) {
-      if(children[i].className == 'product-title') {
+      if(children[i].className == 'product-title' || children[i].className == 'product-info-title') {
         itemTitle = children[i].innerText;
       }
     }
-    console.log(itemTitle)
     ajax.postRating(ratingNumber, itemTitle, function(error, data) {
       if(error == null) {
         showProductDetails(contentDiv, itemTitle);
       }
-    });*/
+    });
   }
 });
 
