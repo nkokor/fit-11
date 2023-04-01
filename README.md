@@ -8,6 +8,8 @@ User can access the basic content (such as workouts and available products) with
 
 # Requirements
 
+git
+
 Node 18.12.1 or newer
 
 WampServer
