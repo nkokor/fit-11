@@ -16,11 +16,7 @@ WampServer
 
 # Setup
 
-First clone the repository. You can do this through your IDE or by running
-
-```
-git clone https://github.com/nkokor/fit-11.git
-```
+First download the project
 
 Then navigate to your local repository through the CMD using the cd command, e.g.
 
@@ -35,6 +31,7 @@ Now install the dependencies by running
 ```
 npm install
 ```
+Make sure that WampServer is running
 
 Finally you can start the server by running
 
